@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Students.SignUpStudent">
+
+    <!-- Title TextView -->
+        <!-- OtpView -->
+
+        <!-- Continue Button -->
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Student Sign Up"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="48dp"
+        android:gravity="center" />
+
+    <!-- Name EditText -->
+    <EditText
+        android:id="@+id/nameEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Name"
+        android:inputType="textPersonName"
+        android:padding="16dp"
+        android:background="@drawable/edittext_background"
+        android:textColorHint="#8F8F8F"
+        android:textColor="@android:color/black"
+        app:layout_constraintTop_toBottomOf="@id/titleTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp" />
+
+    <!-- Gmail EditText -->
+    <EditText
+        android:id="@+id/gmailEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Gmail"
+        android:inputType="textEmailAddress"
+        android:padding="16dp"
+        android:background="@drawable/edittext_background"
+        android:textColorHint="#8F8F8F"
+        android:textColor="@android:color/black"
+        app:layout_constraintTop_toBottomOf="@id/nameEditText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp" />
+
+    <!-- Guardian Name EditText -->
+    <EditText
+        android:id="@+id/guardianNameEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Guardian Name"
+        android:inputType="textPersonName"
+        android:padding="16dp"
+        android:background="@drawable/edittext_background"
+        android:textColorHint="#8F8F8F"
+        android:textColor="@android:color/black"
+        app:layout_constraintTop_toBottomOf="@id/gmailEditText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp" />
+
+    <!-- Guardian Gmail EditText -->
+    <EditText
+        android:id="@+id/guardianGmailEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Guardian Gmail"
+        android:inputType="textEmailAddress"
+        android:padding="16dp"
+        android:background="@drawable/edittext_background"
+        android:textColorHint="#8F8F8F"
+        android:textColor="@android:color/black"
+        app:layout_constraintTop_toBottomOf="@id/guardianNameEditText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp" />
+
+    <!-- Password EditText -->
+    <EditText
+        android:id="@+id/passwordEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:padding="16dp"
+        android:background="@drawable/edittext_background"
+        android:textColorHint="#8F8F8F"
+        android:textColor="@android:color/black"
+        app:layout_constraintTop_toBottomOf="@id/guardianGmailEditText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp" />
+
+    <com.mukeshsolanki.OtpView
+        android:id="@+id/otp_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:inputType="number"
+        android:itemBackground="@color/grey"
+        android:textAllCaps="true"
+        android:textColor="@android:color/black"
+        app:OtpHideLineWhenFilled="true"
+        app:OtpItemCount="6"
+        app:OtpItemSpacing="6dp"
+        app:OtpLineColor="@color/green"
+        app:OtpState_filled="true"
+        app:OtpViewType="line"
+        app:layout_constraintBottom_toTopOf="@+id/signUpButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordEditText"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <!-- Sign Up Button -->
+    <Button
+        android:id="@+id/signUpButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="116dp"
+        android:layout_marginEnd="32dp"
+        android:backgroundTint="@color/purple_700"
+        android:text="Sign Up"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/passwordEditText" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

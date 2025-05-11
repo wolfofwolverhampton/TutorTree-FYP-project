@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Teachers.CategoryTeacher">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Title TextView -->
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Your Category"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp" />
+
+        <!-- Grade Level Section -->
+        <TextView
+            android:id="@+id/gradeTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Grade Level"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            app:layout_constraintTop_toBottomOf="@id/titleTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="24dp" />
+
+        <RadioGroup
+            android:id="@+id/gradeRadioGroup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/gradeTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp">
+
+            <RadioButton
+                android:id="@+id/radioGrade1To3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Grade 1-3"
+                android:buttonTint="@color/purple_700" />
+
+            <RadioButton
+                android:id="@+id/radioGrade4To5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Grade 4-5"
+                android:buttonTint="@color/purple_700" />
+
+            <RadioButton
+                android:id="@+id/radioGrade6To8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Grade 6-8"
+                android:buttonTint="@color/purple_700" />
+
+            <RadioButton
+                android:id="@+id/radioGrade9To10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Grade 9-10"
+                android:buttonTint="@color/purple_700" />
+
+            <RadioButton
+                android:id="@+id/radioGradePlus2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="+2"
+                android:buttonTint="@color/purple_700" />
+        </RadioGroup>
+
+        <!-- Subject Section -->
+        <TextView
+            android:id="@+id/subjectTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Subjects"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            app:layout_constraintTop_toBottomOf="@id/gradeRadioGroup"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="24dp" />
+
+        <LinearLayout
+            android:id="@+id/subjectContainer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/subjectTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp">
+
+            <CheckBox
+                android:id="@+id/checkScience"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Science"
+                android:buttonTint="@color/purple_700" />
+
+            <CheckBox
+                android:id="@+id/checkMathematics"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mathematics"
+                android:buttonTint="@color/purple_700" />
+
+            <CheckBox
+                android:id="@+id/checkEnglish"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="English"
+                android:buttonTint="@color/purple_700" />
+
+            <CheckBox
+                android:id="@+id/checkAccountancy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Accountancy"
+                android:buttonTint="@color/purple_700" />
+
+            <CheckBox
+                android:id="@+id/checkNepali"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nepali"
+                android:buttonTint="@color/purple_700" />
+
+            <CheckBox
+                android:id="@+id/checkBusiness"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Business"
+                android:buttonTint="@color/purple_700" />
+
+            <CheckBox
+                android:id="@+id/checkOptMath"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Opt. Math"
+                android:buttonTint="@color/purple_700" />
+        </LinearLayout>
+
+        <!-- Confirm Button -->
+        <Button
+            android:id="@+id/confirmButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Confirm"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/purple_700"
+            app:layout_constraintTop_toBottomOf="@id/subjectContainer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

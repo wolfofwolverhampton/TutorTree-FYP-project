@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.microphone"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACTION_MANAGE_OVERLAY_PERMISSION" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.JavaInternal"
+        tools:replace="android:theme"
+        tools:targetApi="31">
+        <activity
+            android:name=".Students.EditProfileStudent"
+            android:exported="false" />
+        <activity
+            android:name=".Students.StudentSetting"
+            android:exported="false" />
+        <activity
+            android:name=".CallActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity2"
+            android:exported="false" />
+        <activity
+            android:name=".PaymentResultActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="success"
+                    android:scheme="javainternal" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Utils.Khalti"
+            android:exported="false" />
+        <activity
+            android:name=".ChatForFind"
+            android:exported="false" />
+        <activity
+            android:name=".Teachers.TeacherViewStudentProfile"
+            android:exported="false" />
+        <activity
+            android:name=".Students.StudentViewTeacherProfile"
+            android:exported="true" />
+        <activity
+            android:name=".Students.StudentFindTeacher"
+            android:exported="false" />
+        <activity
+            android:name=".Students.StudentFindTeacherChat"
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".Students.Adapter.StudentFindTeacherAdapter" -->
+        <!-- android:exported="false" /> -->
+        <activity
+            android:name=".Teachers.TeacherFindStudentChat"
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".Students.Adapter.StudentMessageAdapter" -->
+        <!-- android:exported="false" /> -->
+        <activity
+            android:name=".Teachers.TeacherFindStudent"
+            android:exported="false" />
+        <activity
+            android:name=".Teachers.TeacherMyStudent"
+            android:exported="false" />
+        <activity
+            android:name=".Students.MyTeacher"
+            android:exported="false" />
+        <activity
+            android:name=".Students.CategoryStudent"
+            android:exported="false" />
+        <activity
+            android:name=".Teachers.CategoryTeacher"
+            android:exported="false" />
+        <activity
+            android:name=".Teachers.HomePageTeacher"
+            android:exported="false" />
+        <activity
+            android:name=".Students.HomePageStudent"
+            android:exported="false" />
+        <activity
+            android:name=".Students.OTPReceiveStudent"
+            android:exported="false" />
+        <activity
+            android:name=".Students.OTPNumberInputStudent"
+            android:exported="false" />
+        <activity
+            android:name=".Students.SignUpStudent"
+            android:exported="false" />
+        <activity
+            android:name=".Students.LoginForStudent"
+            android:exported="false" />
+        <activity
+            android:name=".Teachers.OTPReceiveTeacher"
+            android:exported="false" />
+        <activity
+            android:name=".Teachers.SignUpTeacher"
+            android:exported="false" />
+        <activity
+            android:name=".Teachers.OTPNumberInputTeacher"
+            android:exported="false" />
+        <activity
+            android:name=".Teachers.LoginForTeacher"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.allowSystemOverlay"
+                android:value="true" />
+        </activity>
+
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+    </application>
+
+</manifest>

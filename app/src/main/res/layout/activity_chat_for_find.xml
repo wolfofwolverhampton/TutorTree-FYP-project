@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/sendLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+    <!-- Send Message Layout -->
+    <LinearLayout
+        android:id="@+id/sendLayout"
+        android:layout_width="403dp"
+        android:layout_height="62dp"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!-- EditText for typing a message -->
+        <ImageView
+            android:id="@+id/shareBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="47dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/baseline_attach_file_24" />
+
+        <EditText
+            android:id="@+id/messageBox"
+            android:layout_width="325dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/edittext_background"
+            android:hint="Type a message..."
+            android:minHeight="48dp"
+            android:padding="8dp" />
+
+        <!-- ImageView for the send icon -->
+        <ImageView
+            android:id="@+id/sendBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:contentDescription="Send message"
+            android:clickable="true"
+            android:focusable="true"
+            app:srcCompat="@drawable/ic_send"
+            tools:ignore="TouchTargetSizeCheck"
+            tools:layout_editor_absoluteX="333dp"
+            tools:layout_editor_absoluteY="662dp" />
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

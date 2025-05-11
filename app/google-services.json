@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "582064171485",
+    "firebase_url": "https://tutortree-477a0-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "tutortree-477a0",
+    "storage_bucket": "tutortree-477a0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:582064171485:android:a46e383acbe7d3fa47ae34",
+        "android_client_info": {
+          "package_name": "com.javainternal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-V1tX5PcIY-LPgLaMuJ0eIola6H6PRZg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

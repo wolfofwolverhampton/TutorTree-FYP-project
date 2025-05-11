@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- Menu Item with Vector Icon -->
+<!--    <item-->
+<!--        android:id="@+id/callBtn"-->
+<!--        android:icon="@drawable/baseline_call_24"-->
+<!--        android:title="Call"-->
+<!--        app:showAsAction="always"-->
+<!--        android:visiblity="gone"/>-->
+</menu>
