@@ -61,7 +61,7 @@ public class TeacherViewStudentProfile extends AppCompatActivity {
 
             // Retrieve the student UID (receiver) from the Intent
             String studentUid = getIntent().getStringExtra("uid");
-            studentUid = studentUid + "2";
+
             
             // Validate the UIDs
             if (teacherUid == null || teacherUid.isEmpty() || studentUid == null || studentUid.isEmpty()) {
