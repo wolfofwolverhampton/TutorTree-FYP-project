@@ -7,13 +7,10 @@
     android:layout_height="match_parent"
     tools:context=".Teachers.HomePageTeacher">
 
-    <!-- Title TextView -->
-
-    <!-- My Student Button -->
     <Button
         android:id="@+id/myStudentButton"
         android:layout_width="353dp"
-        android:layout_height="107dp"
+        android:layout_height="100dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="48dp"
         android:layout_marginEnd="32dp"
@@ -24,14 +21,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titleTextView"
-        android:visibility="gone" />
+        />
 
     <!-- Find Student Button -->
 
     <Button
         android:id="@+id/findStudentButton"
         android:layout_width="353dp"
-        android:layout_height="107dp"
+        android:layout_height="100dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
@@ -42,6 +39,36 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/myStudentButton" />
+
+    <Button
+        android:id="@+id/createAssignmentButton"
+        android:layout_width="353dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
+        android:backgroundTint="#FFBB86FC"
+        android:text="Create Questions"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/findStudentButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/createQuestionSetButton"
+        android:layout_width="353dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
+        android:backgroundTint="#FF3700B3"
+        android:text="Create Question Set"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/createAssignmentButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/titleTextView"

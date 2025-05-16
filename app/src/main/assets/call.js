@@ -23,7 +23,7 @@ let peer;
 //192.168.1.10
 function init(userId) {
     peer = new Peer(userId, {
-        host: '192.168.1.13',
+        host: '192.168.1.106',
         port: 9000,
         path: '/JavaInternal'
 

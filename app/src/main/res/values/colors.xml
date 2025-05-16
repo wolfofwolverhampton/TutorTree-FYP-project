@@ -9,4 +9,5 @@
     <color name="greenDark">#28852C</color>
     <color name="androidBackground">#4A4DCA</color>
     <color name="red">#FF4444</color>
+    <color name="purple_500">#6200EE</color>
 </resources>

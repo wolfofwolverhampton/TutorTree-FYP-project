@@ -21,7 +21,7 @@ import com.javainternal.R;
 
 public class HomePageTeacher extends AppCompatActivity {
 
-    private Button myStudentButton, findStudentButton, logoutButton; // Added logoutButton
+    private Button myStudentButton, findStudentButton, logoutButton, createAssignmentButton, createQuestionSetButton;
     private TextView titleTextView;
     private DatabaseReference teachersRef;
 
@@ -34,7 +34,9 @@ public class HomePageTeacher extends AppCompatActivity {
         titleTextView = findViewById(R.id.titleTextView);
         myStudentButton = findViewById(R.id.myStudentButton);
         findStudentButton = findViewById(R.id.findStudentButton);
-        logoutButton = findViewById(R.id.logoutButton); // Initialize logoutButton
+        logoutButton = findViewById(R.id.logoutButton);
+        createAssignmentButton = findViewById(R.id.createAssignmentButton);
+        createQuestionSetButton = findViewById(R.id.createQuestionSetButton);
 
         // Get the UID (phone number) from the Intent
         String uid = getIntent().getStringExtra("uid");
@@ -79,9 +81,26 @@ public class HomePageTeacher extends AppCompatActivity {
                 Intent intent = new Intent(HomePageTeacher.this, LoginForTeacher.class); // Replace with your login activity
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-                finish(); // Close the current activity
+                finish();
             }
         });
+
+        createAssignmentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePageTeacher.this, CreateMCQ.class);
+                startActivity(intent);
+            }
+        });
+
+        createQuestionSetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomePageTeacher.this, CreateQuestionSetActivity.class);
+                startActivity(intent);
+            }
+        });
+
         generateFcmToken();
 
     }

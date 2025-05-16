@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">JavaInternal</string>
-    <string name="khalti_redirect_url">https://ccd2-110-34-30-57.ngrok-free.app</string>
+    <string name="backend_url">http://192.168.1.106:3000</string>
+    <string-array name="status_options">
+        <item>In Progress</item>
+        <item>Incomplete</item>
+        <item>Completed</item>
+    </string-array>
 </resources>

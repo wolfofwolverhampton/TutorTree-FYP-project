@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.javainternal.Adapter.MessagesAdapter;
 import com.javainternal.Model.Message;
+import com.javainternal.Utils.NotificationUtils;
 import com.javainternal.databinding.ActivityChatForFindBinding;
 
 import org.json.JSONException;
@@ -49,42 +50,34 @@ public class ChatForFind extends AppCompatActivity {
         binding = ActivityChatForFindBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Initialize Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Get data from Intent
         String name = getIntent().getStringExtra("name");
         String senderUid = getIntent().getStringExtra("senderUid"); // Sender UID (student)
         String receiverUid = getIntent().getStringExtra("receiverUid"); // Receiver UID (teacher)
 
-        // Validate the UIDs
         if (senderUid == null || senderUid.isEmpty() || receiverUid == null || receiverUid.isEmpty()) {
             Toast.makeText(this, "UIDs not found. Please try again.", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
 
-        // Set Toolbar title and enable back button
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(name); // Set the recipient's name as the title
             getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Enable the back button
         }
 
-        // Initialize UI components
         messages = new ArrayList<>();
         adapter = new MessagesAdapter(this, messages, senderUid); // Pass the senderUid to the adapter
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerView.setAdapter(adapter);
 
-        // Create chat rooms
         senderRoom = senderUid + receiverUid;
         receiverRoom = receiverUid + senderUid;
 
-        // Initialize Firebase Database
         database = FirebaseDatabase.getInstance().getReference();
 
-        // Fetch messages
         database.child("findChats")
                 .child(senderRoom)
                 .child("messages")
@@ -103,23 +96,17 @@ public class ChatForFind extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        // Handle error
                     }
                 });
         binding.shareBtn.setOnClickListener(v -> {
-            // Define the message text for sharing
             String shareMessageText = "The file is sent.";
 
-            // Validate UIDs
             if (senderUid == null || senderUid.isEmpty() || receiverUid == null || receiverUid.isEmpty()) {
                 Toast.makeText(this, "UIDs not found. Cannot send the file.", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            // Create a new Message object
             Message shareMessage = new Message(shareMessageText, senderUid, new Date().getTime());
-
-            // Push the message to both senderRoom and receiverRoom in Firebase
             database.child("findChats")
                     .child(senderRoom)
                     .child("messages")
@@ -132,10 +119,8 @@ public class ChatForFind extends AppCompatActivity {
                     .push()
                     .setValue(shareMessage);
 
-            // Notify the user that the file has been shared
             Toast.makeText(this, "File shared successfully!", Toast.LENGTH_SHORT).show();
 
-            // Open the Share Menu
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_SEND);
             intent.putExtra(Intent.EXTRA_TEXT, "These are the files");
@@ -146,20 +131,16 @@ public class ChatForFind extends AppCompatActivity {
             }
         });
 
-        // Send message
         binding.sendBtn.setOnClickListener(v -> {
             String messageText = binding.messageBox.getText().toString();
             if (messageText.isEmpty()) {
                 return;
             }
 
-            // Create message object
             Message message = new Message(messageText, senderUid, new Date().getTime());
 
-            // Clear input box
             binding.messageBox.setText("");
 
-            // Push message to both senderRoom and receiverRoom
             database.child("findChats")
                     .child(senderRoom)
                     .child("messages")
@@ -170,13 +151,11 @@ public class ChatForFind extends AppCompatActivity {
                     .child("messages")
                     .push()
                     .setValue(message);
-            // Send notification to the receiver
-            sendNotification(receiverUid, "New Message", message.getMessage());
+            NotificationUtils.sendNotification(getApplicationContext(), senderUid, receiverUid, message.getMessage());
         });
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the Toolbar
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         return true;
     }
@@ -186,23 +165,19 @@ public class ChatForFind extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.callBtn) {
-            // Get the senderUid and receiverUid from the Intent
             String senderUid = getIntent().getStringExtra("senderUid");
             String receiverUid = getIntent().getStringExtra("receiverUid");
             String receiverName = getIntent().getStringExtra("name");
 
-            // Validate UIDs
             if (senderUid == null || senderUid.isEmpty() || receiverUid == null || receiverUid.isEmpty()) {
                 Toast.makeText(this, "UIDs not found. Cannot initiate call.", Toast.LENGTH_SHORT).show();
                 return true;
             }
 
-            // Navigate to CallActivity to initiate the call
             Intent intent = new Intent(ChatForFind.this, CallActivity.class);
-            intent.putExtra("callerUid", senderUid); // Current user's UID
-            intent.putExtra("receiverUid", receiverUid); // Other user's UID
-            intent.putExtra("callerName", FirebaseAuth.getInstance().getCurrentUser().getDisplayName()); // Caller's name
-            intent.putExtra("receiverName", receiverName); // Receiver's name
+            intent.putExtra("callerUid", senderUid);
+            intent.putExtra("receiverUid", receiverUid);
+            intent.putExtra("callerName", FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
             startActivity(intent);
 
             return true;
@@ -213,66 +188,13 @@ public class ChatForFind extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        onBackPressed(); // Mimic the behavior of the system back button
+        onBackPressed();
         return true;
     }
 
     @Override
     public void onBackPressed() {
-        // Add any custom logic here if needed
-        super.onBackPressed(); // Call the superclass method to finish the activity
+        super.onBackPressed();
     }
-    // Send a notification using FCM API
-    private void sendNotification(String receiverUid, String title, String body) {
-        // Fetch the receiver's FCM token
-        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(receiverUid);
-        userRef.child("fcmToken").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String receiverToken = snapshot.getValue(String.class);
-                if (receiverToken == null || receiverToken.isEmpty()) {
-                    Log.w("FCM", "Receiver FCM token not found");
-                    return;
-                }
 
-                // Create the notification payload
-                JSONObject notification = new JSONObject();
-                JSONObject notificationBody = new JSONObject();
-                try {
-                    notificationBody.put("title", title);
-                    notificationBody.put("body", body);
-
-                    notification.put("to", receiverToken); // Receiver's FCM token
-                    notification.put("notification", notificationBody);
-
-                    // Create a POST request to FCM
-                    JsonObjectRequest request = new JsonObjectRequest(
-                            Request.Method.POST,
-                            "https://fcm.googleapis.com/fcm/send",
-                            notification,
-                            response -> Log.d("FCM", "Notification sent successfully"),
-                            error -> Log.e("FCM", "Failed to send notification", error)
-                    ) {
-                        @Override
-                        public Map<String, String> getHeaders() {
-                            Map<String, String> headers = new HashMap<>();
-                            headers.put("Authorization", "key=YOUR_SERVER_KEY"); // Replace with your FCM server key
-                            headers.put("Content-Type", "application/json");
-                            return headers;
-                        }
-                    };
-
-                    // Add the request to a Volley request queue
-                    Volley.newRequestQueue(ChatForFind.this).add(request);
-                } catch (JSONException e) {
-                    Log.e("FCM", "JSON Exception", e);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("FCM", "Failed to fetch receiver FCM token", error.toException());
-            }
-        });
-    }
 }

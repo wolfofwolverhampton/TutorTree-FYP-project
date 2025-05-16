@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 
 public class StudentFindTeacher extends AppCompatActivity {
-
     private ShimmerRecyclerView recyclerView;
     private DatabaseReference teachersRef;
     private ArrayList<TeacherUserModel> teachersList;
@@ -30,14 +29,11 @@ public class StudentFindTeacher extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_find_teacher);
 
-        // Initialize Firebase Database reference
         teachersRef = FirebaseDatabase.getInstance().getReference("teachers");
 
-        // Initialize UI components
         recyclerView = findViewById(R.id.recyclerView);
         teachersList = new ArrayList<>();
 
-        // Fetch teachers from Firebase
         fetchTeachersFromFirebase();
     }
 
@@ -53,7 +49,6 @@ public class StudentFindTeacher extends AppCompatActivity {
                     }
                 }
 
-                // Initialize the adapter and set it to the RecyclerView
                 adapter = new StudentFindTeacherAdapter(StudentFindTeacher.this, teachersList);
                 recyclerView.setAdapter(adapter);
                 recyclerView.showShimmerAdapter(); // Show shimmer effect while loading

@@ -3,8 +3,6 @@ package com.javainternal.Students;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +12,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.javainternal.Utils.FirebaseUtils;
 import com.javainternal.databinding.ActivityLoginForStudentsBinding;
 
 public class LoginForStudent extends AppCompatActivity {
@@ -73,18 +72,14 @@ public class LoginForStudent extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    // Retrieve the password from Firebase
                     String storedPassword = dataSnapshot.child("password").getValue(String.class);
 
-                    // Check if the password matches
                     if (storedPassword != null && storedPassword.equals(password)) {
-                        // Password matches, navigate to HomePageStudent activity
                         Toast.makeText(LoginForStudent.this, "Login successful!", Toast.LENGTH_SHORT).show();
+                        FirebaseUtils.saveFcmToken(phoneNumber);
 
-                        // Set the student UID in the GlobalData singleton
                         GlobalStudentUid.getInstance().setStudentUid(phoneNumber);
 
-                        // Navigate to HomePageStudent activity
                         Intent intent = new Intent(LoginForStudent.this, HomePageStudent.class);
                         intent.putExtra("uid", phoneNumber); // Pass the phone number as uid
                         startActivity(intent);

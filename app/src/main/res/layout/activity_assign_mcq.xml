@@ -1,0 +1,43 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/studentNameTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Assign MCQ to:"
+            android:textSize="18sp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Message for already assigned -->
+        <TextView
+            android:id="@+id/alreadyAssignedMessageTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="All question sets have already been assigned to this student."
+            android:textColor="#FF0000"
+            android:textSize="16sp"
+            android:visibility="gone"
+            android:layout_marginBottom="16dp" />
+
+        <LinearLayout
+            android:id="@+id/checkboxContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="16dp" />
+
+        <Button
+            android:id="@+id/assignButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Assign" />
+    </LinearLayout>
+</ScrollView>

@@ -1,15 +1,19 @@
 package com.javainternal.Students;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -20,12 +24,43 @@ import com.google.firebase.database.ValueEventListener;
 import com.javainternal.R;
 import com.javainternal.Students.Model.StudentUserModel;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Multipart;
+import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.Query;
+
 public class StudentSetting extends AppCompatActivity {
 
-    private TextView nameTextView, gmailTextView, guardianNameTextView, guardianGmailTextView;
+    private TextView nameTextView, gmailTextView, guardianNameTextView, guardianGmailTextView, changePhotoText;
     private Button editButton, logoutButton, categoryButton;
     private DatabaseReference studentsRef;
     private String uid;
+    private static final int PICK_IMAGE_REQUEST = 1;
+    CircleImageView profileImageView;
+
+    public interface UploadService {
+        @Multipart
+        @POST("upload-profile-picture")
+        Call<ResponseBody> uploadProfilePicture(
+                @Query("type") String type,
+                @Part("uid") RequestBody uid,
+                @Part MultipartBody.Part image
+        );
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +68,9 @@ public class StudentSetting extends AppCompatActivity {
         setContentView(R.layout.activity_student_setting);
 
         Intent intent = getIntent();
-        String uid = intent.getStringExtra("uid");
+        uid = intent.getStringExtra("uid");
         studentsRef = FirebaseDatabase.getInstance().getReference("students").child(uid);
 
-        // Initialize UI components
         nameTextView = findViewById(R.id.nameTextView2);
         gmailTextView = findViewById(R.id.gmailTextView2);
         guardianNameTextView = findViewById(R.id.guardianNameTextView2);
@@ -46,43 +80,48 @@ public class StudentSetting extends AppCompatActivity {
         logoutButton = findViewById(R.id.logoutButton);
         categoryButton = findViewById(R.id.categoryButton2);
 
-        // Fetch and display student information
+        profileImageView = findViewById(R.id.profileImageView);
+        changePhotoText = findViewById(R.id.changePhotoText);
+
+        View.OnClickListener pickImageListener = v -> {
+            Intent imageIntent = new Intent(Intent.ACTION_PICK);
+            imageIntent.setType("image/*");
+            startActivityForResult(imageIntent, PICK_IMAGE_REQUEST);
+        };
+
+        profileImageView.setOnClickListener(pickImageListener);
+        changePhotoText.setOnClickListener(pickImageListener);
+
+
         fetchStudentInformation();
 
-        // Set click listener for "Edit" button
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Navigate to EditProfileStudent activity
                 Intent intent = new Intent(StudentSetting.this, EditProfileStudent.class);
                 intent.putExtra("uid", uid);
                 startActivity(intent);
             }
         });
 
-        // Set click listener for "Category" button
         categoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Navigate to CategoryStudent activity
                 Intent intent = new Intent(StudentSetting.this, CategoryStudent.class);
                 intent.putExtra("uid", uid);
                 startActivity(intent);
             }
         });
 
-        // Set click listener for "Log Out" button
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Sign out from Firebase Authentication
                 FirebaseAuth.getInstance().signOut();
 
-                // Navigate back to the login screen
                 Intent intent = new Intent(StudentSetting.this, LoginForStudent.class); // Replace with your login activity
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-                finish(); // Close the current activity
+                finish();
             }
         });
     }
@@ -92,10 +131,13 @@ public class StudentSetting extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    // Retrieve student data from Firebase
                     StudentUserModel student = dataSnapshot.getValue(StudentUserModel.class);
+                    if (student.getProfilePicture() != null && !student.getProfilePicture().isEmpty()) {
+                        Glide.with(StudentSetting.this)
+                                .load(getString(R.string.backend_url) + student.getProfilePicture())
+                                .into(profileImageView);
+                    }
 
-                    // Display student information in TextViews
                     nameTextView.setText(student.getName());
                     gmailTextView.setText(student.getGmail());
                     guardianNameTextView.setText(student.getGuardianName());
@@ -110,5 +152,71 @@ public class StudentSetting extends AppCompatActivity {
                 Toast.makeText(StudentSetting.this, "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri imageUri = data.getData();
+            CircleImageView profileImageView = findViewById(R.id.profileImageView);
+            profileImageView.setImageURI(imageUri);
+            uploadProfilePicture(imageUri);
+        }
+    }
+
+    private void uploadProfilePicture(Uri imageUri) {
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(imageUri);
+            if (inputStream == null) {
+                Toast.makeText(this, "Unable to open image", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            byte[] imageBytes = readBytes(inputStream);
+            RequestBody requestFile = RequestBody.create(imageBytes, MediaType.parse("image/jpeg"));
+            MultipartBody.Part body = MultipartBody.Part.createFormData("profile", "image.jpg", requestFile);
+
+            RequestBody uidPart = RequestBody.create(uid, MediaType.parse("text/plain"));
+
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(getString(R.string.backend_url) + "/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            UploadService service = retrofit.create(UploadService.class);
+
+            Call<ResponseBody> call = service.uploadProfilePicture("students", uidPart, body);
+            call.enqueue(new Callback<>() {
+                @Override
+                public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(getApplicationContext(), "Upload successful!", Toast.LENGTH_SHORT).show();
+                        fetchStudentInformation();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Server error!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                    Toast.makeText(getApplicationContext(), "Upload failed: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Failed to upload image", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private byte[] readBytes(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int len;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+        return byteBuffer.toByteArray();
     }
 }

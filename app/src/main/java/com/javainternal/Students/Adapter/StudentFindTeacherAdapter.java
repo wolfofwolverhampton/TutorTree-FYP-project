@@ -39,7 +39,6 @@ public class StudentFindTeacherAdapter extends RecyclerView.Adapter<StudentFindT
     public void onBindViewHolder(@NonNull TeacherViewHolder holder, int position) {
         TeacherUserModel teacher = teachers.get(position);
 
-
         // Bind the teacher's name and category to the TextViews
         holder.binding.username.setText(teacher.getName());
         holder.binding.lastMsg.setText(teacher.getCategory());

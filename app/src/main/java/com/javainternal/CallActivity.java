@@ -1,5 +1,6 @@
 package com.javainternal;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -86,6 +87,9 @@ public class CallActivity extends AppCompatActivity {
             callJavascriptFunction("javascript:window.flipCamera()");
         });
 
+        String filePath = "file:///android_asset/call.html";
+        binding.webView.loadUrl(filePath);
+
         setupWebView();
     }
 
@@ -107,18 +111,21 @@ public class CallActivity extends AppCompatActivity {
             }
         });
 
-        // Enable JavaScript and other WebView settings
         WebSettings webSettings = binding.webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        webSettings.setMediaPlaybackRequiresUserGesture(false); // Disable user gesture requirement for media playback
-        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE); // Disable caching
+        webSettings.setMediaPlaybackRequiresUserGesture(false);
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         webSettings.setDomStorageEnabled(true);
         webSettings.setAllowFileAccess(true);
         webSettings.setAllowContentAccess(true);
         webSettings.setAllowFileAccessFromFileURLs(true);
         webSettings.setAllowUniversalAccessFromFileURLs(true);
 
-        // Add the JavaScript interface for communication between Android and WebView
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
+
+        // JavaScript interface
         binding.webView.addJavascriptInterface(new CallJavascriptInterface(this), "Android");
 
         // Load the video call HTML file

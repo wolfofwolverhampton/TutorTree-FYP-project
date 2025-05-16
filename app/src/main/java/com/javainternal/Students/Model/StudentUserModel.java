@@ -8,14 +8,13 @@ public class StudentUserModel {
     private String guardianName;
     private String password;
     private String otpReceived;
-    private String gmail; // New field
-    private String guardianGmail; // New field
+    private String gmail;
+    private String guardianGmail;
     private String category;
+    private String profilePicture;
 
-    // Default Constructor (required for Firebase)
     public StudentUserModel() {}
 
-    // Parameterized Constructor
     public StudentUserModel(String uid, String name, String phoneNumber, String guardianName, String password) {
         this.uid = uid;
         this.name = name;
@@ -24,7 +23,6 @@ public class StudentUserModel {
         this.password = password;
     }
 
-    // Getters and Setters
     public String getUid() { return uid; }
     public void setUid(String uid) { this.uid = uid; }
 
@@ -51,4 +49,12 @@ public class StudentUserModel {
 
     public String getCategory() { return category; }
     public void setCategory(String category) { this.category = category; }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
+    }
 }
