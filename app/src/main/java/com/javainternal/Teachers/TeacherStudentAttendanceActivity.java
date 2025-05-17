@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.javainternal.ApplicationContext.UserAuthContext;
 import com.javainternal.Attendance.Decorator.AttendanceDecorator;
 import com.javainternal.Attendance.Model.AttendanceModel;
 import com.javainternal.R;
@@ -50,7 +51,7 @@ public class TeacherStudentAttendanceActivity extends AppCompatActivity {
         buttonSaveAttendance = findViewById(R.id.buttonSaveAttendance);
 
         studentUid = getIntent().getStringExtra("studentUid");
-        teacherUid = GlobalTeacherUid.getInstance().getTeacherUid();
+        teacherUid = UserAuthContext.getInstance(this).getLoggedInPhone();
 
         attendanceRef = FirebaseDatabase.getInstance()
                 .getReference("attendance")

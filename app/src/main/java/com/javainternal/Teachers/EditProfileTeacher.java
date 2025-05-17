@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.javainternal.ApplicationContext.UserAuthContext;
 import com.javainternal.R;
 import com.javainternal.Teachers.Model.TeacherUserModel;
 
@@ -33,7 +34,7 @@ public class EditProfileTeacher extends AppCompatActivity {
 
         saveButton = findViewById(R.id.saveButton);
 
-        teacherUid = GlobalTeacherUid.getInstance().getTeacherUid();
+        teacherUid = UserAuthContext.getInstance(this).getLoggedInPhone();
         dbRef = FirebaseDatabase.getInstance().getReference("teachers").child(teacherUid);
 
         loadTeacherProfile();

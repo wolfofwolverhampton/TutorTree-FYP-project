@@ -13,6 +13,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.javainternal.ApplicationContext.UserAuthContext;
 import com.javainternal.ChatActivity;
 import com.javainternal.Constants.SubscriptionStatus;
 import com.javainternal.Model.SubscriptionModel;
@@ -74,7 +75,9 @@ public class TeacherMyStudent extends AppCompatActivity {
 
         recyclerView.setAdapter(adapter);
 
-        currentTeacherUid = GlobalTeacherUid.getInstance().getTeacherUid();
+        currentTeacherUid = UserAuthContext.getInstance(this).getLoggedInPhone();
+
+        Log.d("Teacher My Student", "Teacher UID" + currentTeacherUid);
 
         ref = FirebaseDatabase.getInstance().getReference("subscriptions");
         Query query = ref.orderByChild("teacherUid").equalTo(currentTeacherUid);

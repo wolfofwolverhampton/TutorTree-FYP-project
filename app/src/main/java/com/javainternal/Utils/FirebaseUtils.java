@@ -35,21 +35,4 @@ public class FirebaseUtils {
                             .apply();
                 });
     }
-
-    public static void checkIfTokenValid(Context context, String userId, Runnable onValid, Runnable onInvalid) {
-        if (userId == null) return;
-
-        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(currentToken -> {
-            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("user_tokens").child(userId);
-            ref.get().addOnSuccessListener(snapshot -> {
-                String storedToken = snapshot.getValue(String.class);
-
-                if (storedToken != null && storedToken.equals(currentToken)) {
-                    onValid.run();
-                } else {
-                    onInvalid.run();
-                }
-            });
-        });
-    }
 }

@@ -14,7 +14,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.javainternal.ApplicationContext.UserAuthContext;
 import com.javainternal.R;
+import com.javainternal.Students.GlobalStudentUid;
+import com.javainternal.Students.LoginForStudent;
 import com.javainternal.Utils.FirebaseUtils;
 
 public class LoginForTeacher extends AppCompatActivity {
@@ -22,14 +25,19 @@ public class LoginForTeacher extends AppCompatActivity {
     private EditText phoneNumberEditText, passwordEditText;
     private Button loginButton, signUpButton;
 
-    private DatabaseReference teachersRef;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_for_teacher);
 
-        teachersRef = FirebaseDatabase.getInstance().getReference("teachers");
+        UserAuthContext authContext = UserAuthContext.getInstance(getApplicationContext());
+
+        if (authContext.isLoggedIn()) {
+            authContext.redirectToHome(authContext.getLoggedInPhone(), authContext.getLoggedInUserType());
+            finish();
+            return;
+        }
+
         phoneNumberEditText = findViewById(R.id.phoneNumberEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         loginButton = findViewById(R.id.loginButton);
@@ -50,7 +58,20 @@ public class LoginForTeacher extends AppCompatActivity {
                     return;
                 }
 
-                authenticateUser(phoneNumber, password);
+                authContext.performLogin("teacher", phoneNumber, password, new UserAuthContext.LoginCallback() {
+                    @Override
+                    public void onSuccess(String phoneNumber, String userType) {
+                        Toast.makeText(LoginForTeacher.this, "Login successful as " + userType + "!", Toast.LENGTH_SHORT).show();
+                        FirebaseUtils.saveFcmToken(getApplicationContext(), phoneNumber);
+                        authContext.redirectToHome(phoneNumber, userType);
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailure(String message) {
+                        Toast.makeText(LoginForTeacher.this, message, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
@@ -59,37 +80,6 @@ public class LoginForTeacher extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(LoginForTeacher.this, OTPNumberInputTeacher.class);
                 startActivity(intent);
-            }
-        });
-    }
-
-    private void authenticateUser(String phoneNumber, String password) {
-        teachersRef.child(phoneNumber).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    String storedPassword = dataSnapshot.child("password").getValue(String.class);
-
-                    if (storedPassword != null && storedPassword.equals(password)) {
-                        Toast.makeText(LoginForTeacher.this, "Login successful!", Toast.LENGTH_SHORT).show();
-                        FirebaseUtils.saveFcmToken(getApplicationContext(), phoneNumber);
-
-                        GlobalTeacherUid.getInstance().setTeacherUid(phoneNumber);
-                        Intent intent = new Intent(LoginForTeacher.this, HomePageTeacher.class);
-                        intent.putExtra("uid", phoneNumber);
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        Toast.makeText(LoginForTeacher.this, "Invalid phone number or password.", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(LoginForTeacher.this, "No account found with this phone number.", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(LoginForTeacher.this, "Database error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
+import com.javainternal.ApplicationContext.UserAuthContext;
 import com.javainternal.MainActivity;
 import com.javainternal.R;
 import com.javainternal.Services.UploadProfilePictureService;
@@ -74,7 +75,7 @@ public class TeacherSetting extends AppCompatActivity {
         setContentView(R.layout.activity_teacher_setting);
 
         dbRef = FirebaseDatabase.getInstance().getReference();
-        teacherUid = GlobalTeacherUid.getInstance().getTeacherUid();
+        teacherUid = UserAuthContext.getInstance(this).getLoggedInPhone();
 
         profileImageView = findViewById(R.id.teacherProfileImageView);
         nameTextView = findViewById(R.id.teacherNameTextView);
@@ -105,12 +106,7 @@ public class TeacherSetting extends AppCompatActivity {
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-
-                Intent intent = new Intent(TeacherSetting.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
+                UserAuthContext.getInstance(TeacherSetting.this).logoutAndRedirect(MainActivity.class);
             }
         });
 

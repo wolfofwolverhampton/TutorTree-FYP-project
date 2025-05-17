@@ -15,6 +15,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.javainternal.ApplicationContext.UserAuthContext;
 import com.javainternal.CallActivity;
 import com.javainternal.ChatActivity;
 import com.javainternal.R;
@@ -56,7 +57,7 @@ public class TeacherViewStudentProfile extends AppCompatActivity {
         // Set click listener for the "Chat" button
         chatButton.setOnClickListener(v -> {
             // Retrieve the teacher UID (sender) from the GlobalTeacherUid singleton
-            String teacherUid = GlobalTeacherUid.getInstance().getTeacherUid();
+            String teacherUid = UserAuthContext.getInstance(this).getLoggedInPhone();
 
             // Retrieve the student UID (receiver) from the Intent
             String studentUid = getIntent().getStringExtra("uid");
@@ -82,7 +83,7 @@ public class TeacherViewStudentProfile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Retrieve the teacher UID (username) from the GlobalTeacherUid singleton
-                String teacherUid = GlobalTeacherUid.getInstance().getTeacherUid();
+                String teacherUid = UserAuthContext.getInstance(TeacherViewStudentProfile.this).getLoggedInPhone();
 
                 // Retrieve the student UID (friendUsername) from the Intent
                 String studentUid = getIntent().getStringExtra("uid");

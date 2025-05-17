@@ -13,6 +13,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.javainternal.ApplicationContext.UserAuthContext;
 import com.javainternal.Assignments.Adapter.StudentsAdapter;
 import com.javainternal.Constants.SubscriptionStatus;
 import com.javainternal.R;
@@ -39,7 +40,7 @@ public class StudentGroupsActivity extends AppCompatActivity {
         studentsRecyclerView = findViewById(R.id.studentsRecyclerView);
         createGroupButton = findViewById(R.id.createGroupButton);
 
-        teacherUid = GlobalTeacherUid.getInstance().getTeacherUid();
+        teacherUid = UserAuthContext.getInstance(this).getLoggedInPhone();
         databaseRef = FirebaseDatabase.getInstance().getReference();
 
         adapter = new StudentsAdapter(studentList, selectedStudentUids);

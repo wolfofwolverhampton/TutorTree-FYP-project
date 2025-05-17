@@ -21,6 +21,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import com.javainternal.ApplicationContext.UserAuthContext;
 import com.javainternal.MainActivity;
 import com.javainternal.R;
 import com.javainternal.Services.UploadProfilePictureService;
@@ -49,7 +50,6 @@ import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 public class StudentSetting extends AppCompatActivity {
-
     private TextView nameTextView, gmailTextView, guardianNameTextView, guardianGmailTextView, changePhotoText;
     private Button editButton, logoutButton, categoryButton;
     private DatabaseReference studentsRef;
@@ -111,12 +111,7 @@ public class StudentSetting extends AppCompatActivity {
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-
-                Intent intent = new Intent(StudentSetting.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
+                UserAuthContext.getInstance(StudentSetting.this).logoutAndRedirect(MainActivity.class);
             }
         });
     }

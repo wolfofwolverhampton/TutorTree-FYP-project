@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
@@ -9,132 +9,89 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:paddingBottom="16dp"
-        android:clipToPadding="false"
-        android:divider="?attr/dividerVertical"
-        android:showDividers="middle"
-        android:dividerPadding="16dp">
+        android:gravity="center_horizontal">
 
+        <!-- Big title -->
         <TextView
-            android:id="@+id/reportTitleTv"
+            android:id="@+id/overallReportTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Your Overall Report"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:textAppearance="?attr/textAppearanceHeadlineMedium"
-            android:textColor="?android:textColorPrimary"
-            android:layout_marginBottom="24dp"
-            />
+            android:layout_marginBottom="24dp"/>
 
-        <!-- Attendance Summary Card -->
-        <com.google.android.material.card.MaterialCardView
+        <!-- Attendance section -->
+        <TextView
+            android:id="@+id/attendanceSummaryTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Attendance summary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/attendanceChart"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#DDDDDD"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- MCQ section -->
+        <TextView
+            android:id="@+id/mcqSummaryTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MCQ summary"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textAlignment="center"
+            android:layout_marginBottom="8dp"/>
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/mcqChart"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#DDDDDD"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Assignment section -->
+        <TextView
+            android:id="@+id/assignmentSummaryTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Assignments summary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <ProgressBar
+            android:id="@+id/assignmentProgress"
+            style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            app:strokeColor="@color/light_gray"
-            app:strokeWidth="1dp">
+            android:max="100"
+            android:layout_marginBottom="16dp"/>
 
-            <LinearLayout
-                android:padding="20dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="12dp"
-                    android:src="@drawable/ic_calendar_check"
-                    android:contentDescription="Attendance Icon"
-                    app:tint="?attr/colorPrimary" />
-
-                <TextView
-                    android:id="@+id/attendanceSummaryTv"
-                    android:text="Present 23/30 Days"
-                    android:textSize="18sp"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- MCQ Summary Card -->
-        <com.google.android.material.card.MaterialCardView
+        <!-- Divider -->
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            app:strokeColor="@color/light_gray"
-            app:strokeWidth="1dp">
-
-            <LinearLayout
-                android:padding="20dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="12dp"
-                    android:src="@drawable/ic_quiz"
-                    android:contentDescription="MCQ Icon"
-                    app:tint="?attr/colorPrimary" />
-
-                <TextView
-                    android:id="@+id/mcqSummaryTv"
-                    android:text="MCQs Attempted: 12 sets, Avg: 76%"
-                    android:textSize="18sp"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Assignment Summary Card -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            app:strokeColor="@color/light_gray"
-            app:strokeWidth="1dp">
-
-            <LinearLayout
-                android:padding="20dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="12dp"
-                    android:src="@drawable/ic_assign"
-                    android:contentDescription="Assignment Icon"
-                    app:tint="?attr/colorPrimary" />
-
-                <TextView
-                    android:id="@+id/assignmentSummaryTv"
-                    android:text="Assignments: 8 completed / 10"
-                    android:textSize="18sp"
-                    android:textColor="@color/black"
-                    android:layout_width="wrap_content"
-                    android:textStyle="bold"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+            android:layout_height="1dp"
+            android:background="#DDDDDD"
+            android:layout_marginBottom="24dp"/>
 
     </LinearLayout>
 </ScrollView>
