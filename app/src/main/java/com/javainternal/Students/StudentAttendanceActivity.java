@@ -49,13 +49,14 @@ public class StudentAttendanceActivity extends AppCompatActivity {
         tvSummary = findViewById(R.id.tvSummary);
         filterGroup = findViewById(R.id.filterGroup);
 
+        calendarView.setSelectionMode(MaterialCalendarView.SELECTION_MODE_NONE);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        // Load attendance from Firebase
         loadAttendance();
 
         filterGroup.setOnCheckedChangeListener((group, checkedId) -> {
@@ -70,7 +71,7 @@ public class StudentAttendanceActivity extends AppCompatActivity {
     private void loadAttendance() {
         String studentId = GlobalStudentUid.getInstance().getStudentUid();
 
-        FirebaseDatabase.getInstance().getReference("student_attendance")
+        FirebaseDatabase.getInstance().getReference("attendance")
                 .child(studentId)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override

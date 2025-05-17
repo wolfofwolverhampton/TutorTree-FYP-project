@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">JavaInternal</string>
-    <string name="backend_url">http://192.168.205.189:3000</string>
+    <string name="backend_url">http://192.168.1.200:3000</string>
     <string-array name="status_options">
         <item>In Progress</item>
         <item>Incomplete</item>

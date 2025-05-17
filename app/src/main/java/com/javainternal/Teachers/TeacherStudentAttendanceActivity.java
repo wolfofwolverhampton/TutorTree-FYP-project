@@ -2,6 +2,7 @@ package com.javainternal.Teachers;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -25,11 +26,8 @@ import org.threeten.bp.Instant;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.ZoneId;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class TeacherStudentAttendanceActivity extends AppCompatActivity {
 
@@ -83,7 +81,7 @@ public class TeacherStudentAttendanceActivity extends AppCompatActivity {
     private long getDateInMillis(@NonNull CalendarDay day) {
         java.util.Calendar cal = java.util.Calendar.getInstance();
         cal.clear();
-        cal.set(day.getYear(), day.getMonth(), day.getDay());
+        cal.set(day.getYear(), day.getMonth() - 1, day.getDay());
         return cal.getTimeInMillis();
     }
 
@@ -136,14 +134,19 @@ public class TeacherStudentAttendanceActivity extends AppCompatActivity {
                             .setTitle("Overwrite Attendance?")
                             .setMessage("Attendance for this date already exists. Do you want to overwrite it?")
                             .setPositiveButton("Yes", (dialog, which) -> {
-                                attendanceRef.child(dateKey).setValue(attendance);
+                                attendanceRef.child(dateKey).setValue(attendance)
+                                        .addOnSuccessListener(aVoid -> loadAndDecorateAttendance())
+                                        .addOnFailureListener(e -> Toast.makeText(TeacherStudentAttendanceActivity.this, "Failed to Save", Toast.LENGTH_SHORT).show())
+                                ;
                             })
                             .setNegativeButton("No", (dialog, which) -> {
                                 dialog.dismiss();
                             })
                             .show();
                 } else {
-                    attendanceRef.child(dateKey).setValue(attendance);
+                    attendanceRef.child(dateKey).setValue(attendance)
+                            .addOnSuccessListener(aVoid -> loadAndDecorateAttendance())
+                            .addOnFailureListener(e -> Toast.makeText(TeacherStudentAttendanceActivity.this, "Failed to save", Toast.LENGTH_SHORT).show());
                 }
             }
 

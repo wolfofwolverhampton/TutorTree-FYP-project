@@ -19,7 +19,7 @@ async function getAvailableCameras() {
 let peer;
 function init(userId) {
     peer = new Peer(userId, {
-        host: '192.168.205.189',
+        host: '192.168.1.200',
         port: 9000,
         path: '/JavaInternal'
 

@@ -26,6 +26,7 @@ import com.javainternal.Model.SubscriptionModel;
 import com.javainternal.Model.TuitionPackageModel;
 import com.javainternal.R;
 import com.javainternal.Students.StudentAttendanceActivity;
+import com.javainternal.Students.StudentResutlActivity;
 import com.javainternal.Utils.KhaltiUtils;
 
 import java.text.SimpleDateFormat;
@@ -40,10 +41,6 @@ public class MyTeacherAdapter extends RecyclerView.Adapter<MyTeacherAdapter.Teac
 
     private final Context context;
     private final List<SubscriptionModel> subscriptions;
-
-    public interface OnRequestActionListener {
-        void onPay(SubscriptionModel subscription);
-    }
 
     public MyTeacherAdapter(Context context, List<SubscriptionModel> subscriptions) {
         this.context = context;
@@ -115,6 +112,7 @@ public class MyTeacherAdapter extends RecyclerView.Adapter<MyTeacherAdapter.Teac
                 holder.tvRateTeacher.setVisibility(View.VISIBLE);
                 holder.chatBtn.setVisibility(View.VISIBLE);
                 holder.viewAttendanceBtn.setVisibility(View.VISIBLE);
+                holder.viewResultsBtn.setVisibility(View.VISIBLE);
 
                 holder.ratingBar.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#FFA500")));
 
@@ -192,6 +190,17 @@ public class MyTeacherAdapter extends RecyclerView.Adapter<MyTeacherAdapter.Teac
                     }
                 });
 
+                holder.viewResultsBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, StudentResutlActivity.class);
+                        intent.putExtra("teacherUid", sub.getTeacherUid());
+                        intent.putExtra("durationInMonths", sub.getPackageDuration());
+                        intent.putExtra("subscribedAt", sub.getSubscribedAt());
+                        context.startActivity(intent);
+                    }
+                });
+
                 break;
 
             case CANCELLED:
@@ -218,7 +227,7 @@ public class MyTeacherAdapter extends RecyclerView.Adapter<MyTeacherAdapter.Teac
 
     static class TeacherViewHolder extends RecyclerView.ViewHolder {
         TextView packageTitle, packagePrice, subscriptionStatus, teacherName, tvRateTeacher;
-        Button payNowBtn, cancelBtn, chatBtn, viewAttendanceBtn;
+        Button payNowBtn, cancelBtn, chatBtn, viewAttendanceBtn, viewResultsBtn;
         RatingBar ratingBar;
         Button submitRatingBtn;
 
@@ -235,6 +244,7 @@ public class MyTeacherAdapter extends RecyclerView.Adapter<MyTeacherAdapter.Teac
             cancelBtn = itemView.findViewById(R.id.cancelBtn);
             chatBtn = itemView.findViewById(R.id.chatBtn);
             viewAttendanceBtn = itemView.findViewById(R.id.viewAttendanceBtn);
+            viewResultsBtn = itemView.findViewById(R.id.viewResultsBtn);
         }
     }
 }

@@ -9,12 +9,15 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.javainternal.R;
 import com.javainternal.Students.StudentViewTeacherProfile;
 import com.javainternal.databinding.RowConversationBinding;
 import com.javainternal.Teachers.Model.TeacherUserModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class StudentFindTeacherAdapter extends RecyclerView.Adapter<StudentFindTeacherAdapter.TeacherViewHolder> {
 
@@ -40,7 +43,16 @@ public class StudentFindTeacherAdapter extends RecyclerView.Adapter<StudentFindT
         TeacherUserModel teacher = teachers.get(position);
 
         holder.binding.username.setText(teacher.getName());
-        holder.binding.lastMsg.setText(teacher.getCategory());
+        holder.binding.category.setText(teacher.getCategory());
+
+        Glide.with(holder.itemView.getContext())
+                .load(context.getString(R.string.backend_url) + teacher.getProfilePicture())
+                .placeholder(R.drawable.ic_teacher)
+                .error(R.drawable.ic_teacher)
+                .circleCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .skipMemoryCache(false)
+                .into(holder.binding.profileIcon);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,5 +78,11 @@ public class StudentFindTeacherAdapter extends RecyclerView.Adapter<StudentFindT
             super(itemView);
             binding = RowConversationBinding.bind(itemView);
         }
+    }
+
+    public void updateData(List<TeacherUserModel> newList) {
+        this.teachers.clear();
+        this.teachers.addAll(newList);
+        notifyDataSetChanged();
     }
 }

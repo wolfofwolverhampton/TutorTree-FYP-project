@@ -1,8 +1,8 @@
 package com.javainternal.Attendance.Model;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import org.threeten.bp.Instant;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.ZoneId;
 
 public class AttendanceModel {
     private long date;
@@ -35,8 +35,10 @@ public class AttendanceModel {
     }
 
     public String getFormattedDate() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        return sdf.format(new Date(date));
+        LocalDate localDate = Instant.ofEpochMilli(date)
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+        return localDate.toString();
     }
 
     public String getTeacherUid() {
