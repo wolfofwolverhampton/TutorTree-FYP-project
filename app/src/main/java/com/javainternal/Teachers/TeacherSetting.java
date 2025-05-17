@@ -33,6 +33,7 @@ import com.javainternal.Students.CategoryStudent;
 import com.javainternal.Students.EditProfileStudent;
 import com.javainternal.Students.LoginForStudent;
 import com.javainternal.Students.StudentSetting;
+import com.javainternal.SystemFeedbackActivity;
 import com.javainternal.Teachers.Model.TeacherUserModel;
 import com.javainternal.Utils.FirebaseUtils;
 import com.javainternal.Utils.ProfilePictureUtils;
@@ -65,7 +66,7 @@ public class TeacherSetting extends AppCompatActivity {
     private RatingBar ratingBar;
     private DatabaseReference dbRef;
     private String teacherUid;
-    private Button editProfileBtn, editCategoryBtn, logoutBtn;
+    private Button editProfileBtn, logoutBtn, sendFeedbackButton;
 
     private static final int PICK_IMAGE_REQUEST = 1;
 
@@ -87,6 +88,7 @@ public class TeacherSetting extends AppCompatActivity {
 
         editProfileBtn = findViewById(R.id.editTeacherProfileButton);
         logoutBtn = findViewById(R.id.teacherLogoutButton);
+        sendFeedbackButton = findViewById(R.id.sendFeedbackButton);
 
         ratingBar.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#FFA500")));
 
@@ -107,6 +109,14 @@ public class TeacherSetting extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 UserAuthContext.getInstance(TeacherSetting.this).logoutAndRedirect(MainActivity.class);
+            }
+        });
+
+        sendFeedbackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TeacherSetting.this, SystemFeedbackActivity.class);
+                startActivity(intent);
             }
         });
 

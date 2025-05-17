@@ -55,17 +55,15 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/payNowBtn"
             style="@style/Widget.Material3.Button"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:layout_margin="4dp"
             android:layout_marginTop="12dp"
             android:layout_weight="1"
-            android:background="@drawable/button_rounded_primary"
             android:backgroundTint="#4CAF50"
             android:fontFamily="sans-serif-medium"
             android:text="Pay Now"
             android:textColor="@android:color/white"
-            android:visibility="gone"
             app:backgroundTint="@color/green" />
 
         <TextView
@@ -89,13 +87,16 @@
             android:visibility="gone" />
 
         <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/flexContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:paddingVertical="8dp"
             app:flexWrap="wrap"
             app:justifyContent="space_between"
-            app:alignItems="stretch">
+            app:alignItems="stretch"
+            android:visibility="gone"
+            >
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/submitRatingBtn"

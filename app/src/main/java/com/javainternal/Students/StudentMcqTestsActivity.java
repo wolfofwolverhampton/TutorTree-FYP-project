@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.javainternal.ApplicationContext.UserAuthContext;
 import com.javainternal.MCQ.Adapter.QuestionSetAdapter;
 import com.javainternal.MCQ.McqAttemptActivity;
 import com.javainternal.MCQ.McqResultActivity;
@@ -42,7 +43,7 @@ public class StudentMcqTestsActivity extends AppCompatActivity {
         assignmentsRecyclerView = findViewById(R.id.assignmentsRecyclerView);
         assignmentsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        studentUid = GlobalStudentUid.getInstance().getStudentUid();
+        studentUid = UserAuthContext.getInstance(this).getLoggedInPhone();
 
         assignmentsRef = FirebaseDatabase.getInstance().getReference("studentAssignments").child(studentUid);
         questionSetsRef = FirebaseDatabase.getInstance().getReference("questionSets");

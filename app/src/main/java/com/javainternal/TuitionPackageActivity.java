@@ -1,6 +1,7 @@
 package com.javainternal;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,6 +34,8 @@ public class TuitionPackageActivity extends AppCompatActivity {
 
         String teacherUid = getIntent().getStringExtra("teacherUid");
         String studentUid = getIntent().getStringExtra("studentUid");
+
+        Log.d("Tution Package", "Student Uid " + studentUid);
 
         adapter = new TuitionPackageAdapter(this, packageList, teacherUid, studentUid);
         recyclerView.setAdapter(adapter);

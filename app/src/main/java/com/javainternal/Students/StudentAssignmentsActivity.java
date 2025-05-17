@@ -13,6 +13,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.javainternal.ApplicationContext.UserAuthContext;
 import com.javainternal.Assignments.Adapter.AssignmentAdapter;
 import com.javainternal.Assignments.Model.Task;
 import com.javainternal.R;
@@ -25,7 +26,7 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
     private RecyclerView assignmentsRecyclerView;
     private AssignmentAdapter adapter;
     private List<Task> assignmentList;
-    private final String studentUid = GlobalStudentUid.getInstance().getStudentUid();
+    private final String studentUid = UserAuthContext.getInstance(this).getLoggedInPhone();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

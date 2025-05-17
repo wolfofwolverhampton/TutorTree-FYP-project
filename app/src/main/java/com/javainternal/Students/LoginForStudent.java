@@ -59,7 +59,6 @@ public class LoginForStudent extends AppCompatActivity {
                     public void onSuccess(String phoneNumber, String userType) {
                         Toast.makeText(LoginForStudent.this, "Login successful as " + userType + "!", Toast.LENGTH_SHORT).show();
                         FirebaseUtils.saveFcmToken(getApplicationContext(), phoneNumber);
-                        GlobalStudentUid.getInstance().setStudentUid(phoneNumber);
                         authContext.redirectToHome(phoneNumber, userType);
                         finish();
                     }

@@ -9,15 +9,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.javainternal.ApplicationContext.UserAuthContext;
 import com.javainternal.R;
-import com.javainternal.Students.GlobalStudentUid;
-import com.javainternal.Students.LoginForStudent;
 import com.javainternal.Utils.FirebaseUtils;
 
 public class LoginForTeacher extends AppCompatActivity {

@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.javainternal.ApplicationContext.UserAuthContext;
 import com.javainternal.R;
 
 import java.util.ArrayList;
@@ -65,7 +66,7 @@ public class StudentResutlActivity extends AppCompatActivity {
         mcqChart = findViewById(R.id.mcqChart);
         assignmentProgress = findViewById(R.id.assignmentProgress);
 
-        studentUid = GlobalStudentUid.getInstance().getStudentUid();
+        studentUid = UserAuthContext.getInstance(this).getLoggedInPhone();
         teacherUid = getIntent().getStringExtra("teacherUid");
         subscribedAt = getIntent().getLongExtra("subscribedAt", 0);
         durationInMonths = getIntent().getIntExtra("durationInMonths", 1);

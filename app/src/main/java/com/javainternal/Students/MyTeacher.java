@@ -15,6 +15,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.javainternal.ApplicationContext.UserAuthContext;
 import com.javainternal.Model.SubscriptionModel;
 import com.javainternal.R;
 import com.javainternal.Students.Adapter.MyTeacherAdapter;
@@ -38,7 +39,7 @@ public class MyTeacher extends AppCompatActivity {
         adapter = new MyTeacherAdapter(this, allSubscriptions);
         recyclerView.setAdapter(adapter);
 
-        String currentStudentUid = GlobalStudentUid.getInstance().getStudentUid();
+        String currentStudentUid = UserAuthContext.getInstance(this).getLoggedInPhone();
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("subscriptions");
         Query query = ref.orderByChild("studentUid").equalTo(currentStudentUid);

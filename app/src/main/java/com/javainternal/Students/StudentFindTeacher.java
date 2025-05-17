@@ -20,7 +20,6 @@ import com.javainternal.Teachers.Model.TeacherUserModel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class StudentFindTeacher extends AppCompatActivity {
     private ShimmerRecyclerView recyclerView;
@@ -96,18 +95,4 @@ public class StudentFindTeacher extends AppCompatActivity {
         }
         adapter.updateData(filteredList);
     }
-
-//    private void filterTeachers(String query) {
-//        String lowerQuery = query.toLowerCase(Locale.ROOT);
-//        filteredList.clear();
-//
-//        for (TeacherUserModel teacher : teachersList) {
-//            if (teacher.getName().toLowerCase().contains(lowerQuery) ||
-//                    (teacher.getCategory() != null && teacher.getCategory().toLowerCase().contains(lowerQuery))) {
-//                filteredList.add(teacher);
-//            }
-//        }
-//
-//        adapter.notifyDataSetChanged();
-//    }
 }

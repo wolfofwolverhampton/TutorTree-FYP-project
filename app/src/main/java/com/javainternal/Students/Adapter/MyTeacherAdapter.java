@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.flexbox.FlexboxLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -67,6 +68,8 @@ public class MyTeacherAdapter extends RecyclerView.Adapter<MyTeacherAdapter.Teac
             case PENDING:
                 holder.subscriptionStatus.setText("Pending - Waiting for teacher's approval");
                 holder.payNowBtn.setVisibility(View.GONE);
+
+                holder.flexContainer.setVisibility(View.VISIBLE);
                 holder.cancelBtn.setVisibility(View.VISIBLE);
                 holder.cancelBtn.setOnClickListener(v -> {
                     int adapterPosition = holder.getAdapterPosition();
@@ -107,6 +110,7 @@ public class MyTeacherAdapter extends RecyclerView.Adapter<MyTeacherAdapter.Teac
                 holder.subscriptionStatus.setText("Paid | Valid till: " + sdf.format(deadlineDate));
                 holder.payNowBtn.setVisibility(View.GONE);
 
+                holder.flexContainer.setVisibility(View.VISIBLE);
                 holder.ratingBar.setVisibility(View.VISIBLE);
                 holder.submitRatingBtn.setVisibility(View.VISIBLE);
                 holder.tvRateTeacher.setVisibility(View.VISIBLE);
@@ -211,6 +215,14 @@ public class MyTeacherAdapter extends RecyclerView.Adapter<MyTeacherAdapter.Teac
             case COMPLETED:
                 holder.subscriptionStatus.setText("Completed");
                 holder.payNowBtn.setVisibility(View.GONE);
+
+                holder.flexContainer.setVisibility(View.VISIBLE);
+                holder.ratingBar.setVisibility(View.VISIBLE);
+                holder.submitRatingBtn.setVisibility(View.VISIBLE);
+                holder.tvRateTeacher.setVisibility(View.VISIBLE);
+                holder.chatBtn.setVisibility(View.VISIBLE);
+                holder.viewAttendanceBtn.setVisibility(View.VISIBLE);
+                holder.viewResultsBtn.setVisibility(View.VISIBLE);
                 break;
 
             default:
@@ -230,6 +242,7 @@ public class MyTeacherAdapter extends RecyclerView.Adapter<MyTeacherAdapter.Teac
         Button payNowBtn, cancelBtn, chatBtn, viewAttendanceBtn, viewResultsBtn;
         RatingBar ratingBar;
         Button submitRatingBtn;
+        FlexboxLayout flexContainer;
 
         public TeacherViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -245,6 +258,7 @@ public class MyTeacherAdapter extends RecyclerView.Adapter<MyTeacherAdapter.Teac
             chatBtn = itemView.findViewById(R.id.chatBtn);
             viewAttendanceBtn = itemView.findViewById(R.id.viewAttendanceBtn);
             viewResultsBtn = itemView.findViewById(R.id.viewResultsBtn);
+            flexContainer = itemView.findViewById(R.id.flexContainer);
         }
     }
 }

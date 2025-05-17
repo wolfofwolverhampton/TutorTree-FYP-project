@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.javainternal.ApplicationContext.UserAuthContext;
 import com.javainternal.CallActivity;
 import com.javainternal.ChatActivity;
 import com.javainternal.R;
@@ -33,6 +34,8 @@ public class StudentViewTeacherProfile extends AppCompatActivity {
     private String studentGmail;
     private String studentName;
     private CircleImageView profileImage;
+    private String studentUid;
+    private String teacherUid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,30 +54,28 @@ public class StudentViewTeacherProfile extends AppCompatActivity {
         packagesButton = findViewById(R.id.tuitionPackages);
 
         Intent intent = getIntent();
-        String uid = intent.getStringExtra("uid");
+        teacherUid = intent.getStringExtra("uid");
 
-        if (uid == null || uid.isEmpty()) {
-            Toast.makeText(this, "UID not found. Please try again.", Toast.LENGTH_SHORT).show();
+        studentUid = UserAuthContext.getInstance(this).getLoggedInPhone();
+
+        if (teacherUid == null || teacherUid.isEmpty()) {
+            Toast.makeText(this, "Teacher UID not found. Please try again.", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
 
-        fetchTeacherData(uid);
+        fetchTeacherData(teacherUid);
 
         chatButton.setOnClickListener(v -> {
-            String studentUid = GlobalStudentUid.getInstance().getStudentUid();
-
-            String teacherUid = getIntent().getStringExtra("uid");
-
             if (studentUid == null || studentUid.isEmpty() || teacherUid == null || teacherUid.isEmpty()) {
                 Toast.makeText(this, "UIDs not found. Please try again.", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             Intent chatIntent = new Intent(this, ChatActivity.class);
-            chatIntent.putExtra("name", teacherName.getText().toString()); // Pass the teacher's name
-            chatIntent.putExtra("senderUid", studentUid); // Use the modified global student UID as sender
-            chatIntent.putExtra("receiverUid", teacherUid); // Pass the teacher UID as receiver
+            chatIntent.putExtra("name", teacherName.getText().toString());
+            chatIntent.putExtra("senderUid", studentUid);
+            chatIntent.putExtra("receiverUid", teacherUid);
             startActivity(chatIntent);
         });
         videoCallButton = findViewById(R.id.videoCall);
@@ -82,9 +83,6 @@ public class StudentViewTeacherProfile extends AppCompatActivity {
         videoCallButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String studentUid = GlobalStudentUid.getInstance().getStudentUid();
-                String teacherUid = getIntent().getStringExtra("uid");
-
                 if (studentUid == null || studentUid.isEmpty() || teacherUid == null || teacherUid.isEmpty()) {
                     Toast.makeText(StudentViewTeacherProfile.this, "UIDs not found. Please try again.", Toast.LENGTH_SHORT).show();
                     return;
@@ -101,45 +99,9 @@ public class StudentViewTeacherProfile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(StudentViewTeacherProfile.this, TuitionPackageActivity.class);
-                intent.putExtra("teacherUid", getIntent().getStringExtra("uid"));
-                intent.putExtra("studentUid", GlobalStudentUid.getInstance().getStudentUid());
+                intent.putExtra("teacherUid", teacherUid);
+                intent.putExtra("studentUid", studentUid);
                 startActivity(intent);
-            }
-        });
-
-    }
-
-    private void fetchStudentGmail() {
-        String studentUid = GlobalStudentUid.getInstance().getStudentUid();
-
-        if (studentUid == null || studentUid.isEmpty()) {
-            Toast.makeText(this, "Student UID not found.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        studentsRef.child(studentUid).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    String name = dataSnapshot.child("name").getValue(String.class);
-                    String gmail = dataSnapshot.child("gmail").getValue(String.class);
-
-                    studentName = name != null ? name : "N/A";
-                    studentGmail = gmail != null ? gmail : "N/A";
-
-                    Log.d("StudentData", "Fetched Name: " + studentName);
-                    Log.d("StudentData", "Fetched Gmail: " + studentGmail);
-
-                    Toast.makeText(StudentViewTeacherProfile.this, "Student Name: " + studentName, Toast.LENGTH_SHORT).show();
-                    Toast.makeText(StudentViewTeacherProfile.this, "Student Gmail: " + studentGmail, Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(StudentViewTeacherProfile.this, "Student data not found.", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(StudentViewTeacherProfile.this, "Failed to load student data: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

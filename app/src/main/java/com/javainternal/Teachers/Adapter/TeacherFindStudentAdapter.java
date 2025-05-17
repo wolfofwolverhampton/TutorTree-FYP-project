@@ -43,7 +43,6 @@ public class TeacherFindStudentAdapter extends RecyclerView.Adapter<TeacherFindS
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Navigate to the TeacherChatActivity or another relevant activity
                 Intent intent = new Intent(context, TeacherViewStudentProfile.class); // Replace with your target activity
                 intent.putExtra("name", student.getName());
                 intent.putExtra("uid", student.getUid()); // Pass the UID (phone number)

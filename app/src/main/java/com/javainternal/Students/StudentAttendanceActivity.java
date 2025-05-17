@@ -16,6 +16,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.javainternal.ApplicationContext.UserAuthContext;
 import com.javainternal.Attendance.Decorator.AttendanceDecorator;
 import com.javainternal.Attendance.Model.AttendanceModel;
 import com.javainternal.R;
@@ -69,7 +70,7 @@ public class StudentAttendanceActivity extends AppCompatActivity {
     }
 
     private void loadAttendance() {
-        String studentId = GlobalStudentUid.getInstance().getStudentUid();
+        String studentId = UserAuthContext.getInstance(this).getLoggedInPhone();
 
         FirebaseDatabase.getInstance().getReference("attendance")
                 .child(studentId)

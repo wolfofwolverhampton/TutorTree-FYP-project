@@ -16,8 +16,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.javainternal.ApplicationContext.UserAuthContext;
 import com.javainternal.MCQ.Model.QuestionSetModel;
 import com.javainternal.R;
+import com.javainternal.Utils.FirebaseUtils;
+import com.javainternal.Utils.NotificationUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -105,6 +108,7 @@ public class AssignMcqActivity extends AppCompatActivity {
 
             assignmentRef.updateChildren(data).addOnSuccessListener(unused -> {
                 Toast.makeText(this, "Assigned successfully", Toast.LENGTH_SHORT).show();
+                NotificationUtils.sendNotification(AssignMcqActivity.this, UserAuthContext.getInstance(AssignMcqActivity.this).getLoggedInPhone(), studentUid, "MCQ Questions has been assigned to you.");
 
                 finish();
             }).addOnFailureListener(e -> {

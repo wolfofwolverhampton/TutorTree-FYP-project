@@ -26,6 +26,7 @@ import com.javainternal.MainActivity;
 import com.javainternal.R;
 import com.javainternal.Services.UploadProfilePictureService;
 import com.javainternal.Students.Model.StudentUserModel;
+import com.javainternal.SystemFeedbackActivity;
 import com.javainternal.Teachers.TeacherSetting;
 import com.javainternal.Utils.FirebaseUtils;
 import com.javainternal.Utils.ProfilePictureUtils;
@@ -51,7 +52,7 @@ import retrofit2.http.Query;
 
 public class StudentSetting extends AppCompatActivity {
     private TextView nameTextView, gmailTextView, guardianNameTextView, guardianGmailTextView, changePhotoText;
-    private Button editButton, logoutButton, categoryButton;
+    private Button editButton, logoutButton, categoryButton, feedbackButton;
     private DatabaseReference studentsRef;
     private String uid;
     private static final int PICK_IMAGE_REQUEST = 1;
@@ -74,6 +75,7 @@ public class StudentSetting extends AppCompatActivity {
         editButton = findViewById(R.id.editButton2);
         logoutButton = findViewById(R.id.logoutButton);
         categoryButton = findViewById(R.id.categoryButton2);
+        feedbackButton = findViewById(R.id.feedbackButton);
 
         profileImageView = findViewById(R.id.profileImageView);
         changePhotoText = findViewById(R.id.changePhotoText);
@@ -112,6 +114,14 @@ public class StudentSetting extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 UserAuthContext.getInstance(StudentSetting.this).logoutAndRedirect(MainActivity.class);
+            }
+        });
+
+        feedbackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(StudentSetting.this, SystemFeedbackActivity.class);
+                startActivity(intent);
             }
         });
     }

@@ -7,6 +7,7 @@
     android:padding="16dp">
 
     <LinearLayout
+        android:id="@+id/feedbackContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -129,30 +130,44 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <LinearLayout
+        <com.google.android.flexbox.FlexboxLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
             android:layout_marginTop="16dp"
-            android:weightSum="3">
+            app:flexWrap="wrap"
+            app:justifyContent="flex_start"
+            android:paddingHorizontal="4dp">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/editTeacherProfileButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_margin="4dp"
+                app:layout_flexGrow="1"
                 android:text="Edit Profile" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/teacherLogoutButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_margin="4dp"
+                app:layout_flexGrow="1"
                 android:text="Log Out"
-                android:backgroundTint="#F44336"
-                android:textColor="@color/white"
-                android:layout_marginStart="8dp" />
-        </LinearLayout>
+                app:backgroundTint="#F44336"
+                android:textColor="@android:color/white" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sendFeedbackButton"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                app:layout_flexGrow="1"
+                android:text="Send Feedback"
+                android:textAllCaps="false"
+                app:backgroundTint="@color/purple_500"
+                android:textColor="@android:color/white" />
+        </com.google.android.flexbox.FlexboxLayout>
     </LinearLayout>
 </ScrollView>

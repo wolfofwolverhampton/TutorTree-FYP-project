@@ -18,6 +18,7 @@ import com.javainternal.ApplicationContext.UserAuthContext;
 import com.javainternal.Attendance.Decorator.AttendanceDecorator;
 import com.javainternal.Attendance.Model.AttendanceModel;
 import com.javainternal.R;
+import com.javainternal.Utils.NotificationUtils;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.google.firebase.database.DatabaseReference;
@@ -137,8 +138,7 @@ public class TeacherStudentAttendanceActivity extends AppCompatActivity {
                             .setPositiveButton("Yes", (dialog, which) -> {
                                 attendanceRef.child(dateKey).setValue(attendance)
                                         .addOnSuccessListener(aVoid -> loadAndDecorateAttendance())
-                                        .addOnFailureListener(e -> Toast.makeText(TeacherStudentAttendanceActivity.this, "Failed to Save", Toast.LENGTH_SHORT).show())
-                                ;
+                                        .addOnFailureListener(e -> Toast.makeText(TeacherStudentAttendanceActivity.this, "Failed to Save", Toast.LENGTH_SHORT).show());
                             })
                             .setNegativeButton("No", (dialog, which) -> {
                                 dialog.dismiss();
@@ -149,6 +149,11 @@ public class TeacherStudentAttendanceActivity extends AppCompatActivity {
                             .addOnSuccessListener(aVoid -> loadAndDecorateAttendance())
                             .addOnFailureListener(e -> Toast.makeText(TeacherStudentAttendanceActivity.this, "Failed to save", Toast.LENGTH_SHORT).show());
                 }
+                String attendanceText = "Absent";
+                if (attendance.isPresent()) {
+                    attendanceText = "Present";
+                }
+                NotificationUtils.sendNotification(TeacherStudentAttendanceActivity.this, teacherUid, studentUid, "Your attendance: " + attendanceText + " for the date: " + attendance.getFormattedDate() + "has been recorded by the teacher.");
             }
 
             @Override

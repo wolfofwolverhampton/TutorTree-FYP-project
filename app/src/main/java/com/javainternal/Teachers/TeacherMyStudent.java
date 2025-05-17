@@ -19,6 +19,7 @@ import com.javainternal.Constants.SubscriptionStatus;
 import com.javainternal.Model.SubscriptionModel;
 import com.javainternal.R;
 import com.javainternal.Teachers.Adapter.TeacherMyStudentAdapter;
+import com.javainternal.Utils.NotificationUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -125,10 +126,21 @@ public class TeacherMyStudent extends AppCompatActivity {
                     Toast.makeText(this, "Marked as " + status, Toast.LENGTH_SHORT).show();
                     subscription.setStatus(status.name());
                     adapter.notifyDataSetChanged();
+                    NotificationUtils.sendNotification(TeacherMyStudent.this, subscription.getTeacherUid(), subscription.getStudentUid(), generateMessage(subscription, status));
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
+    }
+
+    private String generateMessage(SubscriptionModel subscription, SubscriptionStatus subscriptionStatus) {
+        String message = "Your Tuition Subscription Request to " + subscription.getTeacherName() + " for " + subscription.getPackageDuration() + " with the price " + subscription.getPackagePrice() + " has been ";
+        if (SubscriptionStatus.ACCEPTED == subscriptionStatus) {
+            message += " Accepted.";
+        }else if (SubscriptionStatus.CANCELLED == subscriptionStatus){
+            message += " Rejected.";
+        }
+        return message;
     }
 
     private void showAssignAssignmentView(String studentUid) {

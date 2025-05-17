@@ -35,9 +35,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getNotification() != null) {
             String title = remoteMessage.getNotification().getTitle();
             String body = remoteMessage.getNotification().getBody();
-            Log.d(TAG, "Message Notification Title: " + title);
-            Log.d(TAG, "Message Notification Body: " + body);
-
             sendNotification(title, body);
         }
 
@@ -61,6 +58,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         .setSmallIcon(R.drawable.ic_notification)
                         .setContentTitle(title)
                         .setContentText(body)
+                        .setStyle(new NotificationCompat.BigTextStyle().bigText(body))
                         .setAutoCancel(true)
                         .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                         .setContentIntent(pendingIntent)
@@ -85,40 +83,5 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onNewToken(@NonNull String token) {
         super.onNewToken(token);
-        Log.d(TAG, "New FCM Token: " + token);
-        sendTokenToServer(token);
-    }
-
-    private void sendTokenToServer(String token) {
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-        String url = getString(R.string.backend_url) + "/receive_token";
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d(TAG, "Token sent successfully: " + response);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e(TAG, "Failed to send token to server", error);
-                    }
-                }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("token", token);
-
-                String uid = getSharedPreferences("prefs", MODE_PRIVATE).getString("uid", "");
-                params.put("uid", uid);
-
-                return params;
-            }
-        };
-
-        requestQueue.add(stringRequest);
     }
 }

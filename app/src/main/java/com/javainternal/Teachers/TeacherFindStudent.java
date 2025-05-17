@@ -30,14 +30,11 @@ public class TeacherFindStudent extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_find_student);
 
-        // Initialize Firebase Database reference
         studentsRef = FirebaseDatabase.getInstance().getReference("students");
 
-        // Initialize UI components
         recyclerView = findViewById(R.id.recyclerView);
         studentsList = new ArrayList<>();
 
-        // Fetch students from Firebase
         fetchStudentsFromFirebase();
     }
 
