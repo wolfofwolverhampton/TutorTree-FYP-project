@@ -1,11 +1,10 @@
 package com.javainternal;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -13,10 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.android.volley.Request;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,20 +22,13 @@ import com.javainternal.Model.Message;
 import com.javainternal.Utils.NotificationUtils;
 import com.javainternal.databinding.ActivityChatForFindBinding;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
-public class ChatForFind extends AppCompatActivity {
-
+public class ChatActivity extends AppCompatActivity {
     private ActivityChatForFindBinding binding;
     private MessagesAdapter adapter;
     private ArrayList<Message> messages;
-
     private String senderRoom, receiverRoom;
     private DatabaseReference database;
 
@@ -51,11 +39,12 @@ public class ChatForFind extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitleTextColor(Color.BLACK);
         setSupportActionBar(toolbar);
 
         String name = getIntent().getStringExtra("name");
-        String senderUid = getIntent().getStringExtra("senderUid"); // Sender UID (student)
-        String receiverUid = getIntent().getStringExtra("receiverUid"); // Receiver UID (teacher)
+        String senderUid = getIntent().getStringExtra("senderUid");
+        String receiverUid = getIntent().getStringExtra("receiverUid");
 
         if (senderUid == null || senderUid.isEmpty() || receiverUid == null || receiverUid.isEmpty()) {
             Toast.makeText(this, "UIDs not found. Please try again.", Toast.LENGTH_SHORT).show();
@@ -64,12 +53,12 @@ public class ChatForFind extends AppCompatActivity {
         }
 
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(name); // Set the recipient's name as the title
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Enable the back button
+            getSupportActionBar().setTitle(name);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
         messages = new ArrayList<>();
-        adapter = new MessagesAdapter(this, messages, senderUid); // Pass the senderUid to the adapter
+        adapter = new MessagesAdapter(this, messages, senderUid);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerView.setAdapter(adapter);
 
@@ -84,6 +73,11 @@ public class ChatForFind extends AppCompatActivity {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        int lastVisiblePosition = ((LinearLayoutManager) binding.recyclerView.getLayoutManager())
+                                .findLastVisibleItemPosition();
+
+                        boolean isAtBottom = lastVisiblePosition >= messages.size() - 2;
+
                         messages.clear();
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             Message message = dataSnapshot.getValue(Message.class);
@@ -92,6 +86,10 @@ public class ChatForFind extends AppCompatActivity {
                             }
                         }
                         adapter.notifyDataSetChanged();
+
+                        if (isAtBottom) {
+                            binding.recyclerView.smoothScrollToPosition(messages.size() - 1);
+                        }
                     }
 
                     @Override
@@ -167,17 +165,15 @@ public class ChatForFind extends AppCompatActivity {
         if (id == R.id.callBtn) {
             String senderUid = getIntent().getStringExtra("senderUid");
             String receiverUid = getIntent().getStringExtra("receiverUid");
-            String receiverName = getIntent().getStringExtra("name");
 
             if (senderUid == null || senderUid.isEmpty() || receiverUid == null || receiverUid.isEmpty()) {
                 Toast.makeText(this, "UIDs not found. Cannot initiate call.", Toast.LENGTH_SHORT).show();
                 return true;
             }
 
-            Intent intent = new Intent(ChatForFind.this, CallActivity.class);
-            intent.putExtra("callerUid", senderUid);
-            intent.putExtra("receiverUid", receiverUid);
-            intent.putExtra("callerName", FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+            Intent intent = new Intent(ChatActivity.this, CallActivity.class);
+            intent.putExtra("username", senderUid);
+            intent.putExtra("friendUsername", receiverUid);
             startActivity(intent);
 
             return true;

@@ -20,8 +20,8 @@ import java.util.Map;
 
 public class MCQAdapter extends RecyclerView.Adapter<MCQAdapter.ViewHolder> {
 
-    private List<MCQQuestion> mcqQuestionList;
-    private Map<Integer, String> userAnswers = new HashMap<>();
+    private final List<MCQQuestion> mcqQuestionList;
+    private final Map<Integer, String> userAnswers = new HashMap<>();
     private boolean isSubmitted = false; // Tracks whether the user has submitted answers
 
     public MCQAdapter(List<MCQQuestion> mcqQuestionList) {
@@ -48,11 +48,7 @@ public class MCQAdapter extends RecyclerView.Adapter<MCQAdapter.ViewHolder> {
         resetOptionColors(holder);
 
         // Disable RadioGroup if the user has already answered or if answers are submitted
-        if (userAnswers.containsKey(position) || isSubmitted) {
-            holder.radioGroup.setEnabled(false);
-        } else {
-            holder.radioGroup.setEnabled(true);
-        }
+        holder.radioGroup.setEnabled(!userAnswers.containsKey(position) && !isSubmitted);
 
         // Highlight correct and incorrect answers if submitted
         if (isSubmitted) {

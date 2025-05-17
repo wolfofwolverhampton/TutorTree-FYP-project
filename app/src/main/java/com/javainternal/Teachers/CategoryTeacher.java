@@ -91,7 +91,7 @@ public class CategoryTeacher extends AppCompatActivity {
         }
 
         // Save the category data to Firebase
-        teachersRef.child("category").setValue(selectedGrade + ": " + selectedSubjects.toString())
+        teachersRef.child("category").setValue(selectedGrade + ": " + selectedSubjects)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Toast.makeText(CategoryTeacher.this, "Category saved successfully!", Toast.LENGTH_SHORT).show();

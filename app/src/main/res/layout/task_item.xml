@@ -24,23 +24,44 @@
         app:layout_constraintTop_toBottomOf="@id/taskName"
         android:layout_margin="8dp"/>
 
-    <Button
-        android:id="@+id/editButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Edit"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/deleteButton"
-        android:layout_margin="8dp"/>
-
-    <Button
+    <ImageButton
         android:id="@+id/deleteButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Delete"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Delete"
+        android:src="@drawable/ic_delete"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="8dp"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/red" />
+
+    <ImageButton
+        android:id="@+id/editButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Edit"
+        android:src="@drawable/ic_edit"
+        app:layout_constraintEnd_toStartOf="@+id/deleteButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/black" />
+
+    <ImageButton
+        android:id="@+id/assignButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="52dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Assign"
+        android:src="@drawable/ic_assign"
+        app:layout_constraintEnd_toEndOf="@id/editButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/green" />
 
     <TextView
         android:id="@+id/taskDate"

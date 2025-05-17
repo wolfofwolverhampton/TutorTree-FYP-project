@@ -2,7 +2,6 @@ package com.javainternal.Students;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,16 +15,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.javainternal.R;
-import com.javainternal.TuitionPackageActivity;
 
 public class HomePageStudent extends AppCompatActivity {
 
-    private Button myTeacherButton, findTeacherButton, assignmentsButton;
+    private Button myTeacherButton, findTeacherButton, assignmentsButton, mcqTestsButton;
     private TextView titleTextView;
     private DatabaseReference studentsRef;
-
     private ImageView settingButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +48,6 @@ public class HomePageStudent extends AppCompatActivity {
         myTeacherButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Navigate to StudentMyTeacher activity
                 Intent intent = new Intent(HomePageStudent.this, MyTeacher.class);
                 startActivity(intent);
             }
@@ -61,10 +56,15 @@ public class HomePageStudent extends AppCompatActivity {
         findTeacherButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Navigate to StudentFindTeacher activity
                 Intent intent = new Intent(HomePageStudent.this, StudentFindTeacher.class);
                 startActivity(intent);
             }
+        });
+
+        mcqTestsButton = findViewById(R.id.mcqsButton);
+        mcqTestsButton.setOnClickListener(v -> {
+            Intent intent = new Intent(HomePageStudent.this, StudentMcqTestsActivity.class);
+            startActivity(intent);
         });
 
         assignmentsButton = findViewById(R.id.assignmentsButton);
@@ -77,14 +77,11 @@ public class HomePageStudent extends AppCompatActivity {
         settingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(HomePageStudent.this, StudentSetting.class);
                 intent.putExtra("uid", uid);
                 startActivity(intent);
             }
         });
-
-        generateFcmToken();
     }
 
     private void fetchStudentName(String uid) {
@@ -106,36 +103,10 @@ public class HomePageStudent extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Handle database error
                 Toast.makeText(HomePageStudent.this, "Failed to fetch student name: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-                titleTextView.setText("Welcome, Student"); // Default message
+                titleTextView.setText("Welcome, Student");
             }
         });
 
-    }
-
-    private void generateFcmToken() {
-        String phoneNumber = getIntent().getStringExtra("uid");
-
-        if (phoneNumber == null || phoneNumber.isEmpty()) {
-            Log.w("FCM", "Phone number (UID) is null or empty. Cannot save FCM Token.");
-            return;
-        }
-
-        FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(task -> {
-                    if (!task.isSuccessful()) {
-                        Log.w("FCM", "Fetching FCM registration token failed", task.getException());
-                        return;
-                    }
-
-                    String token = task.getResult();
-                    Log.d("FCM", "FCM Token: " + token);
-
-                    DatabaseReference studentRef = FirebaseDatabase.getInstance().getReference("students").child(phoneNumber);
-                    studentRef.child("fcmToken").setValue(token)
-                            .addOnSuccessListener(aVoid -> Log.d("FCM", "FCM Token saved to database for UID: " + phoneNumber))
-                            .addOnFailureListener(e -> Log.e("FCM", "Failed to save FCM Token to database for UID: " + phoneNumber, e));
-                });
     }
 }

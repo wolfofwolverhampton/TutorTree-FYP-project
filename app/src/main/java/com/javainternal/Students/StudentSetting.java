@@ -21,8 +21,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import com.javainternal.MainActivity;
 import com.javainternal.R;
+import com.javainternal.Services.UploadProfilePictureService;
 import com.javainternal.Students.Model.StudentUserModel;
+import com.javainternal.Teachers.TeacherSetting;
+import com.javainternal.Utils.FirebaseUtils;
+import com.javainternal.Utils.ProfilePictureUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -51,16 +56,6 @@ public class StudentSetting extends AppCompatActivity {
     private String uid;
     private static final int PICK_IMAGE_REQUEST = 1;
     CircleImageView profileImageView;
-
-    public interface UploadService {
-        @Multipart
-        @POST("upload-profile-picture")
-        Call<ResponseBody> uploadProfilePicture(
-                @Query("type") String type,
-                @Part("uid") RequestBody uid,
-                @Part MultipartBody.Part image
-        );
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,12 +113,18 @@ public class StudentSetting extends AppCompatActivity {
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
 
-                Intent intent = new Intent(StudentSetting.this, LoginForStudent.class); // Replace with your login activity
+                Intent intent = new Intent(StudentSetting.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fetchStudentInformation();
     }
 
     private void fetchStudentInformation() {
@@ -134,7 +135,7 @@ public class StudentSetting extends AppCompatActivity {
                     StudentUserModel student = dataSnapshot.getValue(StudentUserModel.class);
                     if (student.getProfilePicture() != null && !student.getProfilePicture().isEmpty()) {
                         Glide.with(StudentSetting.this)
-                                .load(getString(R.string.backend_url) + student.getProfilePicture())
+                                .load(getString(R.string.backend_url) + student.getProfilePicture() + "?t=" + System.currentTimeMillis())
                                 .into(profileImageView);
                     }
 
@@ -159,64 +160,19 @@ public class StudentSetting extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri imageUri = data.getData();
-            CircleImageView profileImageView = findViewById(R.id.profileImageView);
+            profileImageView = findViewById(R.id.profileImageView);
             profileImageView.setImageURI(imageUri);
-            uploadProfilePicture(imageUri);
-        }
-    }
-
-    private void uploadProfilePicture(Uri imageUri) {
-        try {
-            InputStream inputStream = getContentResolver().openInputStream(imageUri);
-            if (inputStream == null) {
-                Toast.makeText(this, "Unable to open image", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            byte[] imageBytes = readBytes(inputStream);
-            RequestBody requestFile = RequestBody.create(imageBytes, MediaType.parse("image/jpeg"));
-            MultipartBody.Part body = MultipartBody.Part.createFormData("profile", "image.jpg", requestFile);
-
-            RequestBody uidPart = RequestBody.create(uid, MediaType.parse("text/plain"));
-
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(getString(R.string.backend_url) + "/")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-
-            UploadService service = retrofit.create(UploadService.class);
-
-            Call<ResponseBody> call = service.uploadProfilePicture("students", uidPart, body);
-            call.enqueue(new Callback<>() {
+            ProfilePictureUtils.uploadProfilePicture(getApplicationContext(), imageUri, uid, "students", new ProfilePictureUtils.OnProfileUploadListener() {
                 @Override
-                public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                    if (response.isSuccessful()) {
-                        Toast.makeText(getApplicationContext(), "Upload successful!", Toast.LENGTH_SHORT).show();
-                        fetchStudentInformation();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Server error!", Toast.LENGTH_SHORT).show();
-                    }
+                public void onUploadSuccess() {
+                    fetchStudentInformation();
                 }
 
                 @Override
-                public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                    Toast.makeText(getApplicationContext(), "Upload failed: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                public void onUploadFailure() {
+                    Toast.makeText(getApplicationContext(), "Failed To Upload", Toast.LENGTH_SHORT).show();
                 }
             });
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Failed to upload image", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private byte[] readBytes(InputStream inputStream) throws IOException {
-        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-        int len;
-        while ((len = inputStream.read(buffer)) != -1) {
-            byteBuffer.write(buffer, 0, len);
-        }
-        return byteBuffer.toByteArray();
     }
 }

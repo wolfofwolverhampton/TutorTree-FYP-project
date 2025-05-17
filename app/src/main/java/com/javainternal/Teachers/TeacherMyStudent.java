@@ -1,27 +1,19 @@
 package com.javainternal.Teachers;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
+import com.javainternal.ChatActivity;
 import com.javainternal.Constants.SubscriptionStatus;
 import com.javainternal.Model.SubscriptionModel;
 import com.javainternal.R;
@@ -35,7 +27,7 @@ import java.util.Map;
 public class TeacherMyStudent extends AppCompatActivity {
     private RecyclerView recyclerView;
     private TeacherMyStudentAdapter adapter;
-    private List<SubscriptionModel> allSubscriptions = new ArrayList<>();
+    private final List<SubscriptionModel> allSubscriptions = new ArrayList<>();
     private String currentTeacherUid;
     private DatabaseReference ref;
 
@@ -61,6 +53,22 @@ public class TeacherMyStudent extends AppCompatActivity {
             @Override
             public void onAssign(String studentUid) {
                 showAssignAssignmentView(studentUid);
+            }
+
+            @Override
+            public void onChat(String name, String senderUid, String receiverUid) {
+                Intent intent = new Intent(TeacherMyStudent.this, ChatActivity.class);
+                intent.putExtra("name", name);
+                intent.putExtra("senderUid", senderUid);
+                intent.putExtra("receiverUid", receiverUid);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onTakeAttendance(String studentUid) {
+                Intent intent = new Intent(TeacherMyStudent.this, TeacherStudentAttendanceActivity.class);
+                intent.putExtra("studentUid", studentUid);
+                startActivity(intent);
             }
         });
 

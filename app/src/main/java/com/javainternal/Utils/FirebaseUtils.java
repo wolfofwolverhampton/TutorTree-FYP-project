@@ -20,10 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FirebaseUtils {
-    private static final String TAG = "FirebaseUtils";
-    private static final String FCM_API = "https://fcm.googleapis.com/fcm/send";
-
-    public static void saveFcmToken(String userId) {
+    public static void saveFcmToken(Context context, String userId) {
         if (userId == null) return;
 
         FirebaseMessaging.getInstance().getToken()
@@ -31,6 +28,28 @@ public class FirebaseUtils {
                     FirebaseDatabase.getInstance().getReference("user_tokens")
                             .child(userId)
                             .setValue(token);
+
+                    context.getSharedPreferences("fcm_prefs", Context.MODE_PRIVATE)
+                            .edit()
+                            .putString("fcm_token", token)
+                            .apply();
                 });
+    }
+
+    public static void checkIfTokenValid(Context context, String userId, Runnable onValid, Runnable onInvalid) {
+        if (userId == null) return;
+
+        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(currentToken -> {
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("user_tokens").child(userId);
+            ref.get().addOnSuccessListener(snapshot -> {
+                String storedToken = snapshot.getValue(String.class);
+
+                if (storedToken != null && storedToken.equals(currentToken)) {
+                    onValid.run();
+                } else {
+                    onInvalid.run();
+                }
+            });
+        });
     }
 }

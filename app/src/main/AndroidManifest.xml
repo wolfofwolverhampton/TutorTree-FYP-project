@@ -24,6 +24,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".ApplicationMain"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -36,13 +37,34 @@
         tools:replace="android:theme"
         tools:targetApi="31">
         <activity
+            android:name=".Teachers.TeacherStudentAttendanceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Students.StudentAttendanceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Students.StudentAssignmentsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Teachers.StudentGroupsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Assignments.AssignmentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Teachers.EditProfileTeacher"
+            android:exported="false" />
+        <activity
+            android:name=".Teachers.TeacherSetting"
+            android:exported="false" />
+        <activity
             android:name=".MCQ.McqResultActivity"
             android:exported="false" />
         <activity
             android:name=".MCQ.McqAttemptActivity"
             android:exported="false" />
         <activity
-            android:name=".Students.StudentAssignmentsActivity"
+            android:name=".Students.StudentMcqTestsActivity"
             android:exported="false" />
         <activity
             android:name=".Teachers.CreateQuestionSetActivity"
@@ -86,7 +108,7 @@
             android:name=".Utils.Khalti"
             android:exported="false" />
         <activity
-            android:name=".ChatForFind"
+            android:name=".ChatActivity"
             android:exported="false" />
         <activity
             android:name=".Teachers.TeacherViewStudentProfile"
@@ -98,15 +120,8 @@
             android:name=".Students.StudentFindTeacher"
             android:exported="false" />
         <activity
-            android:name=".Students.StudentFindTeacherChat"
-            android:exported="false" /> <!-- <activity -->
-        <!-- android:name=".Students.Adapter.StudentFindTeacherAdapter" -->
-        <!-- android:exported="false" /> -->
-        <activity
             android:name=".Teachers.TeacherFindStudentChat"
-            android:exported="false" /> <!-- <activity -->
-        <!-- android:name=".Students.Adapter.StudentMessageAdapter" -->
-        <!-- android:exported="false" /> -->
+            android:exported="false" />
         <activity
             android:name=".Teachers.TeacherFindStudent"
             android:exported="false" />

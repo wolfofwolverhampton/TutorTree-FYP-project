@@ -4,70 +4,81 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="12dp"
-    android:elevation="6dp"
     app:cardCornerRadius="16dp"
-    app:cardElevation="6dp">
+    app:cardElevation="4dp"
+    app:strokeColor="@color/light_gray"
+    app:strokeWidth="1dp"
+    app:cardBackgroundColor="@color/cardview_light_background">
 
     <LinearLayout
-        android:padding="16dp"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
         <TextView
             android:id="@+id/teacherName"
-            android:text="Teacher Name"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#555"
-            android:layout_marginTop="4dp" />
+            android:text="Teacher Name"
+            android:textSize="20sp"
+            android:textColor="#212121"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium" />
 
         <TextView
             android:id="@+id/packageTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="Package Title"
             android:textSize="16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textColor="#424242"
+            android:layout_marginTop="4dp" />
 
         <TextView
             android:id="@+id/packagePrice"
-            android:text="Price"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#444"
+            android:text="Rs. 999"
+            android:textSize="15sp"
+            android:textColor="#4CAF50"
             android:layout_marginTop="4dp" />
 
         <TextView
             android:id="@+id/subscriptionStatus"
-            android:text="Status"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#666"
+            android:text="Subscription Active"
+            android:textSize="14sp"
+            android:textColor="#757575"
             android:layout_marginTop="8dp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/payNowBtn"
             android:text="Pay Now"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:backgroundTint="#4CAF50"
-            android:textColor="@android:color/white" />
+            android:background="@drawable/button_rounded_primary"
+            android:layout_marginTop="12dp"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            app:backgroundTint="@color/green"
+            android:textColor="@android:color/white"
+            android:fontFamily="sans-serif-medium"
+            android:visibility="gone"
+            android:layout_margin="4dp"
+            />
 
         <TextView
             android:id="@+id/tvRateTeacher"
-            android:text="Give Ratings to Your Teacher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Give Ratings to Your Teacher"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="#666"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:visibility="gone"
-            />
+            android:layout_marginTop="16dp"
+            android:visibility="gone" />
 
         <RatingBar
             android:id="@+id/ratingBar"
@@ -75,25 +86,74 @@
             android:layout_height="wrap_content"
             android:numStars="5"
             android:stepSize="1.0"
-            android:isIndicator="false"
-            android:visibility="gone"
-            />
-
-        <Button
-            android:id="@+id/submitRatingBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Submit Rating"
+            android:layout_marginTop="4dp"
             android:visibility="gone" />
 
-        <Button
-            android:id="@+id/cancelBtn"
-            android:layout_width="wrap_content"
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cancel Request"
-            android:visibility="gone"
-            android:backgroundTint="@color/red"
-            android:textColor="@android:color/white"/>
+            android:layout_marginTop="12dp"
+            app:flexWrap="wrap"
+            app:justifyContent="space_between"
+            android:paddingVertical="8dp">
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/submitRatingBtn"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:text="Submit Rating"
+                android:visibility="gone"
+                app:backgroundTint="@color/green"
+                android:textColor="@android:color/white"
+                android:fontFamily="sans-serif-medium"
+                android:layout_margin="4dp"
+                app:layout_flexGrow="1"
+                />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/chatBtn"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:text="Chat"
+                app:backgroundTint="@color/purple_500"
+                android:textColor="@android:color/white"
+                android:fontFamily="sans-serif-medium"
+                android:visibility="gone"
+                android:layout_margin="4dp"
+                app:layout_flexGrow="1"
+                />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/viewAttendanceBtn"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:text="View Attendance"
+                app:backgroundTint="@color/greenDark"
+                android:textColor="@android:color/white"
+                android:fontFamily="sans-serif-medium"
+                android:visibility="gone"
+                android:layout_margin="4dp"
+                app:layout_flexGrow="1"
+                />
+        </com.google.android.flexbox.FlexboxLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancelBtn"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="Cancel Request"
+            app:backgroundTint="@color/red"
+            android:textColor="@android:color/white"
+            android:fontFamily="sans-serif-medium"
+            android:visibility="gone"
+            />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

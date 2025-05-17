@@ -7,8 +7,10 @@ public class TeacherUserModel {
     private String phoneNumber;
     private String password;
     private String otpReceived;
-    private String gmail; // New field
+    private String gmail;
     private String category;
+
+    private String profilePicture;
 
     // No-Argument Constructor (REQUIRED FOR FIREBASE)
     public TeacherUserModel() {
@@ -23,6 +25,11 @@ public class TeacherUserModel {
         this.otpReceived = otpReceived;
         this.gmail = gmail;
         this.category = category;
+    }
+
+    public TeacherUserModel(String name, String gmail) {
+        this.name = name;
+        this.gmail = gmail;
     }
 
     // Getter and Setter for UID
@@ -86,5 +93,13 @@ public class TeacherUserModel {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
     }
 }

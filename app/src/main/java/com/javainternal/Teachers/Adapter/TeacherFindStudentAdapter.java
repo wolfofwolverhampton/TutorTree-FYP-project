@@ -18,8 +18,8 @@ import java.util.ArrayList;
 
 public class TeacherFindStudentAdapter extends RecyclerView.Adapter<TeacherFindStudentAdapter.StudentViewHolder> {
 
-    private Context context;
-    private ArrayList<StudentUserModel> students;
+    private final Context context;
+    private final ArrayList<StudentUserModel> students;
 
     public TeacherFindStudentAdapter(Context context, ArrayList<StudentUserModel> students) {
         this.context = context;

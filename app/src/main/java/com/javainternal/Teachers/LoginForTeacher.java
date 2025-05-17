@@ -72,11 +72,11 @@ public class LoginForTeacher extends AppCompatActivity {
 
                     if (storedPassword != null && storedPassword.equals(password)) {
                         Toast.makeText(LoginForTeacher.this, "Login successful!", Toast.LENGTH_SHORT).show();
-                        FirebaseUtils.saveFcmToken(phoneNumber);
+                        FirebaseUtils.saveFcmToken(getApplicationContext(), phoneNumber);
 
                         GlobalTeacherUid.getInstance().setTeacherUid(phoneNumber);
                         Intent intent = new Intent(LoginForTeacher.this, HomePageTeacher.class);
-                        intent.putExtra("uid", phoneNumber); // Pass the phone number as uid
+                        intent.putExtra("uid", phoneNumber);
                         startActivity(intent);
                         finish();
                     } else {

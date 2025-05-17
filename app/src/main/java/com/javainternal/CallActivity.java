@@ -44,18 +44,15 @@ public class CallActivity extends AppCompatActivity {
         binding = ActivityCallBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Handle back button press
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                finish(); // Close the activity
+                finish();
             }
         });
 
-        // Initialize Firebase reference
         firebaseRef = FirebaseDatabase.getInstance().getReference("users");
 
-        // Retrieve username and friendUsername from intent
         username = getIntent().getStringExtra("username");
         friendsUsername = getIntent().getStringExtra("friendUsername");
 
@@ -67,10 +64,8 @@ public class CallActivity extends AppCompatActivity {
             return;
         }
 
-        // Initially hide the call input layout since we're using passed parameters
         binding.inputLayout.setVisibility(View.GONE);
 
-        // Toggle buttons for audio, video, and camera flip
         binding.toggleAudioBtn.setOnClickListener(v -> {
             isAudio = !isAudio;
             callJavascriptFunction("javascript:toggleAudio(\"" + isAudio + "\")");
@@ -94,7 +89,6 @@ public class CallActivity extends AppCompatActivity {
     }
 
     private void setupWebView() {
-        // Enable hardware acceleration for the WebView
         binding.webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
         binding.webView.setWebChromeClient(new WebChromeClient() {
@@ -125,10 +119,8 @@ public class CallActivity extends AppCompatActivity {
             webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
 
-        // JavaScript interface
         binding.webView.addJavascriptInterface(new CallJavascriptInterface(this), "Android");
 
-        // Load the video call HTML file
         loadVideoCall();
     }
 
@@ -150,27 +142,21 @@ public class CallActivity extends AppCompatActivity {
         Log.d(TAG, "Initializing peer with ID: " + uniqueId);
         callJavascriptFunction("javascript:init(\"" + uniqueId + "\")");
 
-        // Create the user node in Firebase with proper structure
-        // This is essential for the connection to work
         firebaseRef.child(username).child("isAvailable").setValue(true);
         firebaseRef.child(username).child("connId").setValue(uniqueId);
 
-        // Listen for incoming call requests
         setupIncomingCallListener();
 
-        // Show call controls and call action button
         setupCallControls();
     }
 
     private void setupIncomingCallListener() {
-        // Listen for incoming call requests
         firebaseRef.child(username).child("incoming").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 String caller = snapshot.getValue(String.class);
                 Log.d(TAG, "Incoming call data changed: " + caller);
 
-                // Only process if there's a valid caller value
                 if (caller != null && !caller.isEmpty()) {
                     onCallRequest(caller);
                 }
@@ -205,16 +191,12 @@ public class CallActivity extends AppCompatActivity {
 
         Log.d(TAG, "Sending call request to: " + friendsUsername);
 
-        // Make sure our connection ID is set
         firebaseRef.child(username).child("connId").setValue(uniqueId);
 
-        // Set the incoming value for the friend - this triggers the call request
         firebaseRef.child(friendsUsername).child("incoming").setValue(username);
 
-        // Start listening for friend's availability
         listenForFriendAvailability();
 
-        // Hide the call button after sending request
         binding.callActionBtn.setVisibility(View.GONE);
     }
 
@@ -226,7 +208,6 @@ public class CallActivity extends AppCompatActivity {
                 Log.d(TAG, "Friend availability: " + isAvailable);
 
                 if (isAvailable != null && isAvailable) {
-                    // Friend is available, now listen for their connection ID
                     listenForConnId();
                 }
             }
@@ -247,7 +228,6 @@ public class CallActivity extends AppCompatActivity {
 
                 if (connId == null || connId.isEmpty()) return;
 
-                // We have a connection ID, start the call
                 switchToControls();
                 callJavascriptFunction("javascript:startCall(\"" + connId + "\")");
             }
@@ -262,34 +242,27 @@ public class CallActivity extends AppCompatActivity {
     private void onCallRequest(String caller) {
         Log.d(TAG, "Call request from: " + caller);
 
-        // Show the incoming call UI
         binding.callLayout.setVisibility(View.VISIBLE);
         binding.incomingCallTxt.setText(caller + " is calling...");
 
         binding.acceptBtn.setOnClickListener(v -> {
             Log.d(TAG, "Call accepted, setting connId: " + uniqueId);
 
-            // Set our connection ID so caller can connect to us
             firebaseRef.child(username).child("connId").setValue(uniqueId);
             firebaseRef.child(username).child("isAvailable").setValue(true);
 
-            // Hide the incoming call layout
             binding.callLayout.setVisibility(View.GONE);
 
-            // Switch to call controls UI
             switchToControls();
 
-            // Store the caller as our friend for this session
             friendsUsername = caller;
         });
 
         binding.rejectBtn.setOnClickListener(v -> {
             Log.d(TAG, "Call rejected");
 
-            // Clear the incoming call value to indicate rejection
             firebaseRef.child(username).child("incoming").setValue(null);
 
-            // Hide the incoming call layout
             binding.callLayout.setVisibility(View.GONE);
         });
     }
@@ -297,7 +270,7 @@ public class CallActivity extends AppCompatActivity {
     private void switchToControls() {
         binding.inputLayout.setVisibility(View.GONE);
         binding.callControlLayout.setVisibility(View.VISIBLE);
-        binding.callActionBtn.setVisibility(View.GONE); // Hide call button during active call
+        binding.callActionBtn.setVisibility(View.GONE);
     }
 
     private String getUniqueID() {
@@ -313,7 +286,6 @@ public class CallActivity extends AppCompatActivity {
         Log.d(TAG, "Peer connection established");
         Toast.makeText(this, "Connected to server", Toast.LENGTH_SHORT).show();
 
-        // Update the call button text
         runOnUiThread(() -> {
             binding.callActionBtn.setText("Start Call");
             binding.callActionBtn.setEnabled(true);
@@ -332,7 +304,6 @@ public class CallActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        // Cleanup Firebase entries when activity is destroyed
         if (username != null && !username.isEmpty()) {
             firebaseRef.child(username).child("incoming").setValue(null);
             firebaseRef.child(username).child("isAvailable").setValue(false);

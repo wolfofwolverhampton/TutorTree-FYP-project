@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.javainternal.Attendance.Model.AttendanceModel;
 import com.javainternal.Constants.SubscriptionStatus;
 import com.javainternal.Model.SubscriptionModel;
 import com.javainternal.R;
@@ -22,6 +23,8 @@ public class TeacherMyStudentAdapter extends RecyclerView.Adapter<TeacherMyStude
         void onAccept(SubscriptionModel subscription);
         void onReject(SubscriptionModel subscription);
         void onAssign(String studentUid);
+        void onChat(String name, String senderUid, String receiverUid);
+        void onTakeAttendance(String studentUid);
     }
 
     private final Context context;
@@ -53,6 +56,7 @@ public class TeacherMyStudentAdapter extends RecyclerView.Adapter<TeacherMyStude
         if (status == SubscriptionStatus.PENDING) {
             holder.acceptButton.setVisibility(View.VISIBLE);
             holder.rejectButton.setVisibility(View.VISIBLE);
+            holder.chatButton.setVisibility(View.GONE);
 
             holder.acceptButton.setOnClickListener(v -> {
                 if (listener != null) listener.onAccept(sub);
@@ -68,11 +72,23 @@ public class TeacherMyStudentAdapter extends RecyclerView.Adapter<TeacherMyStude
 
         if (status == SubscriptionStatus.PAID) {
             holder.assignButton.setVisibility(View.VISIBLE);
+            holder.chatButton.setVisibility(View.VISIBLE);
+            holder.takeAttendanceButton.setVisibility(View.VISIBLE);
+
             holder.assignButton.setOnClickListener(v -> {
                 if (listener != null) listener.onAssign(sub.getStudentUid());
             });
+
+            holder.chatButton.setOnClickListener(v -> {
+                if (listener != null) listener.onChat(sub.getStudentName(), sub.getTeacherUid(), sub.getStudentUid());
+            });
+
+            holder.takeAttendanceButton.setOnClickListener(v -> {
+                if (listener != null) listener.onTakeAttendance(sub.getStudentUid());
+            });
         } else {
             holder.assignButton.setVisibility(View.GONE);
+            holder.chatButton.setVisibility(View.GONE);
         }
 
         switch (status) {
@@ -101,7 +117,7 @@ public class TeacherMyStudentAdapter extends RecyclerView.Adapter<TeacherMyStude
 
     public static class StudentViewHolder extends RecyclerView.ViewHolder {
         TextView studentName, packageTitle, subscriptionStatus;
-        Button acceptButton, rejectButton, assignButton;
+        Button acceptButton, rejectButton, assignButton, chatButton, takeAttendanceButton;
 
         public StudentViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -111,6 +127,8 @@ public class TeacherMyStudentAdapter extends RecyclerView.Adapter<TeacherMyStude
             acceptButton = itemView.findViewById(R.id.acceptButton);
             rejectButton = itemView.findViewById(R.id.rejectButton);
             assignButton = itemView.findViewById(R.id.assignButton);
+            chatButton = itemView.findViewById(R.id.chatButton);
+            takeAttendanceButton = itemView.findViewById(R.id.takeAttendanceButton);
         }
     }
 }

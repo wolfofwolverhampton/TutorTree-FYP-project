@@ -137,7 +137,7 @@
             android:id="@+id/flipCameraBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/baseline_videocam_24"
+            android:src="@drawable/switch_camera"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Flip Camera"
             android:padding="12dp"

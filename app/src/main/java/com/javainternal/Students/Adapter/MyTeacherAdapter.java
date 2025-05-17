@@ -1,6 +1,7 @@
 package com.javainternal.Students.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -19,10 +20,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.javainternal.ChatActivity;
 import com.javainternal.Constants.SubscriptionStatus;
 import com.javainternal.Model.SubscriptionModel;
 import com.javainternal.Model.TuitionPackageModel;
 import com.javainternal.R;
+import com.javainternal.Students.StudentAttendanceActivity;
 import com.javainternal.Utils.KhaltiUtils;
 
 import java.text.SimpleDateFormat;
@@ -35,8 +38,8 @@ import java.util.Map;
 
 public class MyTeacherAdapter extends RecyclerView.Adapter<MyTeacherAdapter.TeacherViewHolder> {
 
-    private Context context;
-    private List<SubscriptionModel> subscriptions;
+    private final Context context;
+    private final List<SubscriptionModel> subscriptions;
 
     public interface OnRequestActionListener {
         void onPay(SubscriptionModel subscription);
@@ -110,6 +113,8 @@ public class MyTeacherAdapter extends RecyclerView.Adapter<MyTeacherAdapter.Teac
                 holder.ratingBar.setVisibility(View.VISIBLE);
                 holder.submitRatingBtn.setVisibility(View.VISIBLE);
                 holder.tvRateTeacher.setVisibility(View.VISIBLE);
+                holder.chatBtn.setVisibility(View.VISIBLE);
+                holder.viewAttendanceBtn.setVisibility(View.VISIBLE);
 
                 holder.ratingBar.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#FFA500")));
 
@@ -165,6 +170,28 @@ public class MyTeacherAdapter extends RecyclerView.Adapter<MyTeacherAdapter.Teac
                         }
                     });
                 });
+
+                holder.chatBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, ChatActivity.class);
+                        intent.putExtra("name", sub.getTeacherName());
+                        intent.putExtra("senderUid", sub.getStudentUid());
+                        intent.putExtra("receiverUid", sub.getTeacherUid());
+                        context.startActivity(intent);
+                    }
+                });
+
+                holder.viewAttendanceBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, StudentAttendanceActivity.class);
+                        intent.putExtra("subscribedAt", sub.getSubscribedAt());
+                        intent.putExtra("tuitionDuration", sub.getPackageDuration());
+                        context.startActivity(intent);
+                    }
+                });
+
                 break;
 
             case CANCELLED:
@@ -191,7 +218,7 @@ public class MyTeacherAdapter extends RecyclerView.Adapter<MyTeacherAdapter.Teac
 
     static class TeacherViewHolder extends RecyclerView.ViewHolder {
         TextView packageTitle, packagePrice, subscriptionStatus, teacherName, tvRateTeacher;
-        Button payNowBtn, cancelBtn;
+        Button payNowBtn, cancelBtn, chatBtn, viewAttendanceBtn;
         RatingBar ratingBar;
         Button submitRatingBtn;
 
@@ -206,6 +233,8 @@ public class MyTeacherAdapter extends RecyclerView.Adapter<MyTeacherAdapter.Teac
             submitRatingBtn = itemView.findViewById(R.id.submitRatingBtn);
             tvRateTeacher = itemView.findViewById(R.id.tvRateTeacher);
             cancelBtn = itemView.findViewById(R.id.cancelBtn);
+            chatBtn = itemView.findViewById(R.id.chatBtn);
+            viewAttendanceBtn = itemView.findViewById(R.id.viewAttendanceBtn);
         }
     }
 }

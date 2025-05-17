@@ -20,35 +20,30 @@ public class EditTaskDialog {
     }
 
     public static void showEditDialog(Context context, Task task, OnTaskUpdatedListener listener) {
-        // Inflate the custom dialog layout
         LayoutInflater inflater = LayoutInflater.from(context);
         View dialogView = inflater.inflate(R.layout.dialog_edit_task, null);
 
-        // Initialize views
         EditText nameInput = dialogView.findViewById(R.id.editTaskName);
         Button selectDateButton = dialogView.findViewById(R.id.selectDateButton);
         TextView selectedDateText = dialogView.findViewById(R.id.selectedDateText);
 
-        // Set initial values
         nameInput.setText(task.getName());
 
-        // Initialize selectedDate with the task's current date or default to today's date
-        String initialDate = task.getDate();
+        String initialDate = task.getDueDate();
         if (initialDate == null || initialDate.isEmpty()) {
             Calendar calendar = Calendar.getInstance();
             int day = calendar.get(Calendar.DAY_OF_MONTH);
-            int month = calendar.get(Calendar.MONTH) + 1; // Month is 1-based for display
+            int month = calendar.get(Calendar.MONTH) + 1;
             int year = calendar.get(Calendar.YEAR);
-            initialDate = day + "/" + month + "/" + year; // Default to today's date
+            initialDate = day + "/" + month + "/" + year;
         }
-        final String[] selectedDate = {initialDate}; // Store the selected date
+        final String[] selectedDate = {initialDate};
         selectedDateText.setText("Selected Date: " + initialDate);
 
-        // Set up DatePickerDialog
         final Calendar calendar = Calendar.getInstance();
         String[] dateParts = initialDate.split("/");
         int initialDay = Integer.parseInt(dateParts[0]);
-        int initialMonth = Integer.parseInt(dateParts[1]) - 1; // Month is 0-based for DatePicker
+        int initialMonth = Integer.parseInt(dateParts[1]) - 1;
         int initialYear = Integer.parseInt(dateParts[2]);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(
@@ -60,34 +55,26 @@ public class EditTaskDialog {
                 initialYear, initialMonth, initialDay
         );
 
-        // Open DatePickerDialog when the Select Date button is clicked
         selectDateButton.setOnClickListener(v -> datePickerDialog.show());
 
-        // Build the AlertDialog
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Edit Task");
         builder.setView(dialogView);
 
-        // Save Button
         builder.setPositiveButton("Save", (dialog, which) -> {
             String newName = nameInput.getText().toString().trim();
 
             if (!newName.isEmpty()) {
-                // Use the selected date (defaults to initialDate if not changed)
                 String newDate = selectedDate[0];
 
-                // Update the task object with the selected date
-                Task updatedTask = new Task(task.getId(), newName, task.getStatus(), newDate);
+                Task updatedTask = new Task(task.getId(), newName, task.getStatus(), task.getAssignedDate(), newDate);
 
-                // Notify the listener with the updated task
                 listener.onTaskUpdated(updatedTask);
             }
         });
 
-        // Cancel Button
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
 
-        // Show the dialog
         builder.show();
     }
 }

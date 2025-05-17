@@ -7,69 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".Teachers.HomePageTeacher">
 
-    <Button
-        android:id="@+id/myStudentButton"
-        android:layout_width="353dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="32dp"
-        android:backgroundTint="#FF6200EE"
-        android:text="My Student"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleTextView"
-        />
-
-    <!-- Find Student Button -->
-
-    <Button
-        android:id="@+id/findStudentButton"
-        android:layout_width="353dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
-        android:backgroundTint="#FF03DAC5"
-        android:text="Find Student"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/myStudentButton" />
-
-    <Button
-        android:id="@+id/createAssignmentButton"
-        android:layout_width="353dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
-        android:backgroundTint="#FFBB86FC"
-        android:text="Create Questions"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@id/findStudentButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/createQuestionSetButton"
-        android:layout_width="353dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
-        android:backgroundTint="#FF3700B3"
-        android:text="Create Question Set"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@id/createAssignmentButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
+    <!-- Title -->
     <TextView
         android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
@@ -80,11 +18,109 @@
         android:textColor="@android:color/black"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Log Out Button -->
+    <!-- My Student Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/myStudentButton"
+        android:layout_width="353dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:text="My Student"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:backgroundTint="#FF6200EE"
+        app:layout_constraintTop_toBottomOf="@id/titleTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Find Student Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/findStudentButton"
+        android:layout_width="353dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:text="Find Student"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:backgroundTint="#FF03DAC5"
+        app:layout_constraintTop_toBottomOf="@id/myStudentButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Create Questions Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/createAssignmentButton"
+        android:layout_width="353dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:text="Create Questions"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:backgroundTint="#FFBB86FC"
+        app:layout_constraintTop_toBottomOf="@id/findStudentButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Create Question Set Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/createQuestionSetButton"
+        android:layout_width="353dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:text="Create Question Set"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:backgroundTint="#FF3700B3"
+        app:layout_constraintTop_toBottomOf="@id/createAssignmentButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Student Assignments Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/studentAssignmentsButton"
+        android:layout_width="353dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="24dp"
+        android:text="Student Assignments"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:backgroundTint="#FF018786"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/studentGroupsButton"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/studentGroupsButton"
+        android:layout_width="353dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
+        android:text="Student Groups"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:backgroundTint="#FF5722"
+        app:layout_constraintTop_toBottomOf="@id/createQuestionSetButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <ImageView
         android:id="@+id/imageView8"
         android:layout_width="72dp"
@@ -94,21 +130,20 @@
         app:layout_constraintBottom_toTopOf="@+id/titleTextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/teacher" />
 
-    <Button
-        android:id="@+id/logoutButton"
-        android:layout_width="108dp"
-        android:layout_height="42dp"
-        android:backgroundTint="#FFD32F2F"
-        android:text="Log Out"
-        android:textColor="@android:color/white"
-        android:textSize="16sp"
+    <!-- Settings Icon -->
+    <ImageView
+        android:id="@+id/settingButton"
+        android:layout_width="27dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="45dp"
         app:layout_constraintBottom_toTopOf="@+id/titleTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.978"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.98"
+        app:layout_constraintStart_toStartOf="@+id/imageView8"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_settings_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

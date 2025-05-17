@@ -22,9 +22,9 @@ public class McqAttemptActivity extends AppCompatActivity {
 
     private QuestionSetModel questionSet;
     private String studentUid;
-    private List<MCQQuestion> questions = new ArrayList<>();
+    private final List<MCQQuestion> questions = new ArrayList<>();
     private int currentIndex = 0;
-    private Map<String, Integer> selectedAnswers = new HashMap<>();
+    private final Map<String, Integer> selectedAnswers = new HashMap<>();
 
     private TextView questionText;
     private RadioGroup optionsGroup;

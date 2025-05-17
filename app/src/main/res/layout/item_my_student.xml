@@ -1,81 +1,145 @@
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="12dp"
-    android:elevation="6dp"
+    android:elevation="4dp"
+    app:cardBackgroundColor="@color/cardview_light_background"
     app:cardCornerRadius="16dp"
     app:cardElevation="6dp">
 
     <LinearLayout
-        android:padding="16dp"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <!-- Student Name -->
         <TextView
             android:id="@+id/studentName"
-            android:text="Student Name"
-            android:textSize="18sp"
-            android:textStyle="bold"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="Student Name"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <!-- Package Title -->
         <TextView
             android:id="@+id/packageTitle"
-            android:text="Package Title"
-            android:textSize="16sp"
-            android:textColor="#555"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp" />
+            android:layout_marginTop="4dp"
+            android:text="Package Title"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
 
         <!-- Subscription Status -->
         <TextView
             android:id="@+id/subscriptionStatus"
-            android:text="Status: Pending"
-            android:textSize="14sp"
-            android:textColor="#666"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:text="Status: Pending"
+            android:textColor="#666" />
 
         <!-- Buttons container -->
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="12dp">
+            android:paddingVertical="8dp"
+            app:flexWrap="wrap"
+            app:justifyContent="space_between">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/acceptButton"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:elevation="2dp"
+                android:paddingVertical="10dp"
                 android:text="Accept"
-                android:backgroundTint="#4CAF50"
+                android:textAllCaps="false"
                 android:textColor="@android:color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                app:backgroundTint="@color/green"
+                app:icon="@drawable/ic_approve"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                app:layout_flexGrow="1" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/rejectButton"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:elevation="2dp"
+                android:paddingVertical="10dp"
                 android:text="Reject"
-                android:backgroundTint="#F44336"
+                android:textAllCaps="false"
                 android:textColor="@android:color/white"
-                android:layout_marginStart="16dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                app:backgroundTint="@color/red"
+                app:icon="@drawable/ic_reject"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                app:layout_flexGrow="1" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/assignButton"
-                android:text="Assign"
-                android:backgroundTint="#2196F3"
-                android:textColor="@android:color/white"
-                android:layout_marginStart="16dp"
+                style="@style/Widget.Material3.Button"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:elevation="2dp"
+                android:paddingVertical="10dp"
+                android:text="Assign"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                app:backgroundTint="@color/purple_700"
+                app:icon="@drawable/ic_assign"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                app:layout_flexGrow="1" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/chatButton"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:elevation="2dp"
+                android:paddingVertical="10dp"
+                android:text="Chat"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                app:backgroundTint="@color/purple_500"
+                app:icon="@drawable/ic_chat"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                app:layout_flexGrow="1" />
+
+            <!-- New Take Attendance Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/takeAttendanceButton"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:elevation="2dp"
+                android:paddingVertical="10dp"
+                android:text="Take Attendance"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                app:backgroundTint="@color/teal_700"
+                app:icon="@drawable/ic_attendance"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                app:layout_flexGrow="1"
+                android:visibility="gone"
+                />
+
+        </com.google.android.flexbox.FlexboxLayout>
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

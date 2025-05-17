@@ -16,9 +16,9 @@ import java.util.Date;
 import java.util.Locale;
 
 public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private Context context;
-    private ArrayList<Message> messages;
-    private String senderUid; // Add this field to store the sender UID
+    private final Context context;
+    private final ArrayList<Message> messages;
+    private final String senderUid; // Add this field to store the sender UID
     private final int ITEM_SENT = 1;
     private final int ITEM_RECEIVE = 2;
 
@@ -45,7 +45,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         Message message = messages.get(position);
         String senderId = message.getSenderId();
         // Use the senderUid passed to the adapter instead of FirebaseAuth.getInstance().getUid()
-        if (senderUid != null && senderId != null && senderUid.equals(senderId)) {
+        if (senderUid != null && senderUid.equals(senderId)) {
             return ITEM_SENT; // Sent by the current user
         } else {
             return ITEM_RECEIVE; // Received from another user

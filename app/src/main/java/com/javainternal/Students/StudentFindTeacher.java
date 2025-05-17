@@ -51,13 +51,12 @@ public class StudentFindTeacher extends AppCompatActivity {
 
                 adapter = new StudentFindTeacherAdapter(StudentFindTeacher.this, teachersList);
                 recyclerView.setAdapter(adapter);
-                recyclerView.showShimmerAdapter(); // Show shimmer effect while loading
-                recyclerView.hideShimmerAdapter(); // Hide shimmer effect after data is loaded
+                recyclerView.showShimmerAdapter();
+                recyclerView.hideShimmerAdapter();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Handle database errors
                 System.out.println("Failed to load teachers: " + error.getMessage());
             }
         });

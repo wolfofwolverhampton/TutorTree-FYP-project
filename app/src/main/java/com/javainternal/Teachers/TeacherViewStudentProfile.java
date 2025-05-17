@@ -16,8 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.javainternal.CallActivity;
-import com.javainternal.ChatForFind;
-import com.javainternal.MainActivity2;
+import com.javainternal.ChatActivity;
 import com.javainternal.R;
 
 public class TeacherViewStudentProfile extends AppCompatActivity {
@@ -69,7 +68,7 @@ public class TeacherViewStudentProfile extends AppCompatActivity {
             }
 
             // Create an Intent to navigate to ChatForFind activity
-            Intent chatIntent = new Intent(this, ChatForFind.class);
+            Intent chatIntent = new Intent(this, ChatActivity.class);
             chatIntent.putExtra("name", studentName.getText().toString()); // Pass the student's name
             chatIntent.putExtra("senderUid", teacherUid); // Use the global teacher UID as sender
             chatIntent.putExtra("receiverUid", studentUid); // Pass the student UID as receiver

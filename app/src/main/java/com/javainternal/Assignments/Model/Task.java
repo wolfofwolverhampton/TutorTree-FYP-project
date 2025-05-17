@@ -4,17 +4,18 @@ public class Task {
     private String id;
     private String name;
     private String status;
-    private String date; // New field for storing the date
+    private String dueDate;
+    private String assignedDate;
 
     public Task() {
-        // Default constructor required for Firebase
     }
 
-    public Task(String id, String name, String status, String date) {
+    public Task(String id, String name, String status, String assignedDate, String dueDate) {
         this.id = id;
         this.name = name;
         this.status = status;
-        this.date = date;
+        this.dueDate = dueDate;
+        this.assignedDate = assignedDate;
     }
 
     public String getId() {
@@ -41,11 +42,19 @@ public class Task {
         this.status = status;
     }
 
-    public String getDate() {
-        return date;
+    public String getDueDate() {
+        return dueDate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public String getAssignedDate() {
+        return assignedDate;
+    }
+
+    public void setAssignedDate(String assignedDate) {
+        this.assignedDate = assignedDate;
     }
 }

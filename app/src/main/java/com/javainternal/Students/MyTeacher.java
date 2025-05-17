@@ -25,7 +25,7 @@ import java.util.List;
 public class MyTeacher extends AppCompatActivity {
     private RecyclerView recyclerView;
     private MyTeacherAdapter adapter;
-    private List<SubscriptionModel> allSubscriptions = new ArrayList<>();
+    private final List<SubscriptionModel> allSubscriptions = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

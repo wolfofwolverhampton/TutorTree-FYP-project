@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.javainternal.R;
-import com.javainternal.Students.StudentFindTeacherChat;
 import com.javainternal.Students.StudentViewTeacherProfile;
 import com.javainternal.databinding.RowConversationBinding;
 import com.javainternal.Teachers.Model.TeacherUserModel;
@@ -22,7 +21,8 @@ public class StudentFindTeacherAdapter extends RecyclerView.Adapter<StudentFindT
     private Context context;
     private ArrayList<TeacherUserModel> teachers;
 
-    public StudentFindTeacherAdapter (){};
+    public StudentFindTeacherAdapter (){}
+
     public StudentFindTeacherAdapter(Context context, ArrayList<TeacherUserModel> teachers) {
         this.context = context;
         this.teachers = teachers;
@@ -39,18 +39,15 @@ public class StudentFindTeacherAdapter extends RecyclerView.Adapter<StudentFindT
     public void onBindViewHolder(@NonNull TeacherViewHolder holder, int position) {
         TeacherUserModel teacher = teachers.get(position);
 
-        // Bind the teacher's name and category to the TextViews
         holder.binding.username.setText(teacher.getName());
         holder.binding.lastMsg.setText(teacher.getCategory());
 
-        // Set click listener for the item view
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Navigate to the TeacherChatActivity or another relevant activity
-                Intent intent = new Intent(context, StudentViewTeacherProfile.class); // Replace with your target activity
+                Intent intent = new Intent(context, StudentViewTeacherProfile.class);
                 intent.putExtra("name", teacher.getName());
-                intent.putExtra("uid", teacher.getUid()); // Pass the UID (phone number)
+                intent.putExtra("uid", teacher.getUid());
                 context.startActivity(intent);
             }
         });

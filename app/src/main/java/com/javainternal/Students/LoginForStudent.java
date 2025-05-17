@@ -76,7 +76,7 @@ public class LoginForStudent extends AppCompatActivity {
 
                     if (storedPassword != null && storedPassword.equals(password)) {
                         Toast.makeText(LoginForStudent.this, "Login successful!", Toast.LENGTH_SHORT).show();
-                        FirebaseUtils.saveFcmToken(phoneNumber);
+                        FirebaseUtils.saveFcmToken(getApplicationContext(), phoneNumber);
 
                         GlobalStudentUid.getInstance().setStudentUid(phoneNumber);
 

@@ -20,7 +20,7 @@ import java.util.List;
 
 public class CreateMCQAdapter extends RecyclerView.Adapter<CreateMCQAdapter.ViewHolder> {
 
-    private List<MCQQuestion> mcqQuestionList;
+    private final List<MCQQuestion> mcqQuestionList;
 
     public CreateMCQAdapter() {
         this.mcqQuestionList = new ArrayList<>();

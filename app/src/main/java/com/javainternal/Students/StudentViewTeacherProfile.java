@@ -1,14 +1,9 @@
 package com.javainternal.Students;
 
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,31 +11,19 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.javainternal.CallActivity;
-import com.javainternal.ChatForFind;
-import com.javainternal.MainActivity2;
+import com.javainternal.ChatActivity;
 import com.javainternal.R;
 import com.javainternal.TuitionPackageActivity;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import de.hdodenhof.circleimageview.CircleImageView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 public class StudentViewTeacherProfile extends AppCompatActivity {
     private TextView teacherName, teacherGmail, gradeCategory, subjectCategory;
     private Button chatButton, videoCallButton, packagesButton;
@@ -49,17 +32,17 @@ public class StudentViewTeacherProfile extends AppCompatActivity {
     private DatabaseReference studentsRef;
     private String studentGmail;
     private String studentName;
+    private CircleImageView profileImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_view_teacher_profile);
 
-        // Initialize Firebase Database reference
         teachersRef = FirebaseDatabase.getInstance().getReference("teachers");
         studentsRef = FirebaseDatabase.getInstance().getReference("students");
 
-        // Initialize UI components
+        profileImage = findViewById(R.id.profileImage);
         teacherName = findViewById(R.id.teacherName);
         teacherGmail = findViewById(R.id.teacherGmail);
         gradeCategory = findViewById(R.id.gradeCategory);
@@ -67,7 +50,6 @@ public class StudentViewTeacherProfile extends AppCompatActivity {
         chatButton = findViewById(R.id.chatButton);
         packagesButton = findViewById(R.id.tuitionPackages);
 
-        // Retrieve the UID (phone number) from the Intent
         Intent intent = getIntent();
         String uid = intent.getStringExtra("uid");
 
@@ -77,10 +59,8 @@ public class StudentViewTeacherProfile extends AppCompatActivity {
             return;
         }
 
-        // Fetch the teacher's data from Firebase
         fetchTeacherData(uid);
 
-        // Set click listener for the "Chat" button
         chatButton.setOnClickListener(v -> {
             String studentUid = GlobalStudentUid.getInstance().getStudentUid();
 
@@ -91,7 +71,7 @@ public class StudentViewTeacherProfile extends AppCompatActivity {
                 return;
             }
 
-            Intent chatIntent = new Intent(this, ChatForFind.class);
+            Intent chatIntent = new Intent(this, ChatActivity.class);
             chatIntent.putExtra("name", teacherName.getText().toString()); // Pass the teacher's name
             chatIntent.putExtra("senderUid", studentUid); // Use the modified global student UID as sender
             chatIntent.putExtra("receiverUid", teacherUid); // Pass the teacher UID as receiver
@@ -128,6 +108,7 @@ public class StudentViewTeacherProfile extends AppCompatActivity {
         });
 
     }
+
     private void fetchStudentGmail() {
         String studentUid = GlobalStudentUid.getInstance().getStudentUid();
 
@@ -140,19 +121,15 @@ public class StudentViewTeacherProfile extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    // Retrieve the name and Gmail from the snapshot
                     String name = dataSnapshot.child("name").getValue(String.class);
                     String gmail = dataSnapshot.child("gmail").getValue(String.class);
 
-                    // Store the fetched data in the variables
                     studentName = name != null ? name : "N/A";
                     studentGmail = gmail != null ? gmail : "N/A";
 
-                    // Log the fetched data for debugging purposes
                     Log.d("StudentData", "Fetched Name: " + studentName);
                     Log.d("StudentData", "Fetched Gmail: " + studentGmail);
 
-                    // Optionally, display the fetched data in a Toast or UI component
                     Toast.makeText(StudentViewTeacherProfile.this, "Student Name: " + studentName, Toast.LENGTH_SHORT).show();
                     Toast.makeText(StudentViewTeacherProfile.this, "Student Gmail: " + studentGmail, Toast.LENGTH_SHORT).show();
                 } else {
@@ -174,14 +151,21 @@ public class StudentViewTeacherProfile extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     String name = dataSnapshot.child("name").getValue(String.class);
                     String gmail = dataSnapshot.child("gmail").getValue(String.class);
-                    String grade = dataSnapshot.child("category").getValue(String.class); // Assuming category includes grade
-                    String subjects = dataSnapshot.child("subjects").getValue(String.class); // Add a "subjects" field in Firebase
+                    String grade = dataSnapshot.child("category").getValue(String.class);
+                    String subjects = dataSnapshot.child("subjects").getValue(String.class);
+                    String profileImageUrl = dataSnapshot.child("profilePicture").getValue(String.class);
 
-                    // Populate the UI components
                     teacherName.setText(name != null ? name : "N/A");
                     teacherGmail.setText(gmail != null ? gmail : "N/A");
                     gradeCategory.setText("Grade: " + (grade != null ? grade : "N/A"));
                     subjectCategory.setText("Subject: " + (subjects != null ? subjects : "N/A"));
+
+                    if (profileImageUrl != null && !profileImageUrl.isEmpty()) {
+                        Glide.with(StudentViewTeacherProfile.this)
+                                .load(getString(R.string.backend_url) + profileImageUrl + "?t=" + System.currentTimeMillis())
+                                .placeholder(R.drawable.ic_person)
+                                .into(profileImage);
+                    }
                 } else {
                     Toast.makeText(StudentViewTeacherProfile.this, "Teacher data not found.", Toast.LENGTH_SHORT).show();
                     finish();
