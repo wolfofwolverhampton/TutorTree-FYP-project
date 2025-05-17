@@ -2,6 +2,7 @@ package com.javainternal.Utils;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -45,7 +46,7 @@ public class ProfilePictureUtils {
             RequestBody uidPart = RequestBody.create(uid, MediaType.parse("text/plain"));
 
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(context.getString(R.string.backend_url) + "/")
+                    .baseUrl(context.getString(R.string.backend_url) + "/upload/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 

@@ -58,7 +58,7 @@ public class KhaltiUtils {
 
     private static void initializeKhaltiPayment(Context context, TuitionPackageModel tuitionPackage, String teacherName, String teacherEmail, String teacherPhone, SubscriptionModel subscription) {
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url = context.getString(R.string.backend_url) + "/khalti/initiate";
+        String url = context.getString(R.string.backend_url) + "/payment/khalti/initiate";
         JSONObject jsonBody = new JSONObject();
 
         try {

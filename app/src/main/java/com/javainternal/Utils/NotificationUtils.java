@@ -13,7 +13,7 @@ import org.json.JSONObject;
 
 public class NotificationUtils {
     public static void sendNotification(Context context, String senderUid, String receiverUid, String message) {
-        String url = context.getString(R.string.backend_url) + "/send-notification";
+        String url = context.getString(R.string.backend_url) + "/notification/send-notification";
 
         JSONObject payload = new JSONObject();
         try {

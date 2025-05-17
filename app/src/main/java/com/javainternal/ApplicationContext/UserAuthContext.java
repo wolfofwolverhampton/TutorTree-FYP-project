@@ -95,6 +95,7 @@ public class UserAuthContext {
         String phone = getLoggedInPhone();
         prefs.edit().clear().apply();
 
+        Log.d("Auth Context", phone);
         if (phone != null) {
             FirebaseDatabase.getInstance().getReference("user_tokens")
                     .child(phone)
