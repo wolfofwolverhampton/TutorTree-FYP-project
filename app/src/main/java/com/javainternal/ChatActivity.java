@@ -88,7 +88,9 @@ public class ChatActivity extends AppCompatActivity {
                         adapter.notifyDataSetChanged();
 
                         if (isAtBottom) {
-                            binding.recyclerView.smoothScrollToPosition(messages.size() - 1);
+                            if (!messages.isEmpty()){
+                                binding.recyclerView.smoothScrollToPosition(messages.size() - 1);
+                            }
                         }
                     }
 
